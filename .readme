@@ -25,40 +25,5 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/cache<br />/etc/nginx/common<br />
 
 # Usage
 ```
-nginx:
-    container_name: nginx
-    image: demyx/nginx
-    restart: unless-stopped
-    environment:
-      nginx_DATABASE: demyx_db
-      nginx_USERNAME: demyx_user
-      nginx_PASSWORD: demyx_password
-      nginx_ROOT_PASSWORD: demyx_root_password # mandatory
-      nginx_DEFAULT_CHARACTER_SET: utf8
-      nginx_CHARACTER_SET_SERVER: utf8
-      nginx_COLLATION_SERVER: utf8_general_ci
-      nginx_KEY_BUFFER_SIZE: 32M
-      nginx_MAX_ALLOWED_PACKET: 16M
-      nginx_TABLE_OPEN_CACHE: 2000
-      nginx_SORT_BUFFER_SIZE: 4M
-      nginx_NET_BUFFER_SIZE: 4M
-      nginx_READ_BUFFER_SIZE: 2M
-      nginx_READ_RND_BUFFER_SIZE: 1M
-      nginx_MYISAM_SORT_BUFFER_SIZE: 32M
-      nginx_LOG_BIN: mysql-bin
-      nginx_BINLOG_FORMAT: mixed
-      nginx_SERVER_ID: 1
-      nginx_INNODB_DATA_FILE_PATH: ibdata1:10M:autoextend
-      nginx_INNODB_BUFFER_POOL_SIZE: 32M
-      nginx_INNODB_LOG_FILE_SIZE: 5M
-      nginx_INNODB_LOG_BUFFER_SIZE: 8M
-      nginx_INNODB_FLUSH_LOG_AT_TRX_COMMIT: 1
-      nginx_INNODB_LOCK_WAIT_TIMEOUT: 50
-      nginx_INNODB_USE_NATIVE_AIO: 1
-      nginx_READ_BUFFER: 2M
-      nginx_WRITE_BUFFER: 2M
-      nginx_MAX_CONNECTIONS: 100
-      TZ: America/Los_Angeles
-    volumes:
-      - ./db:/var/lib/mysql
+docker run -dit --rm --name nginx demyx/nginx
 ```
