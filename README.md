@@ -11,7 +11,7 @@ TITLE | DESCRIPTION
 --- | ---
 PORT | 80
 TIMEZONE | America/Los_Angeles
-NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/cache<br />/etc/nginx/common<br />/etc/nginx/modules<br />
+NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 
 # Updates
 [![Code Size](https://img.shields.io/github/languages/code-size/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
