@@ -31,8 +31,8 @@ docker run -dit --rm \
 -e WORDPRESS="false" \              # Only set to true if using for WordPress
 -e WORDPRESS_DOMAIN=domain.tld \    # Only set if using for WordPress
 -e DEMYX_UPLOAD_LIMIT=128M \
--e DEMYX_NGINX_CACHE="false" \
--e DEMYX_RATE_LIMIT="false" \
+-e DEMYX_NGINX_CACHE="off" \
+-e DEMYX_RATE_LIMIT="off" \
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```

@@ -28,12 +28,12 @@ if [[ "$WORDPRESS" = true ]]; then
 	fi
 
 	# NGINX FastCGI cache
-	if [[ "$DEMYX_NGINX_CACHE" = true ]]; then
+	if [[ "$DEMYX_NGINX_CACHE" = on ]]; then
 		sed -i "s|#include /etc/nginx/cache|include /etc/nginx/cache|g" /etc/nginx/nginx.conf
 	fi
 
 	# NGINX rate limiting
-	if [[ "$DEMYX_RATE_LIMIT" = true ]]; then
+	if [[ "$DEMYX_RATE_LIMIT" = on ]]; then
 		sed -i "s|#limit_req|limit_req|g" /etc/nginx/nginx.conf
 	fi
 
