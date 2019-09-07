@@ -6,8 +6,7 @@ if [[ "$WORDPRESS" = true ]]; then
 
 	# Domain replacement
 	if [[ -n "$WORDPRESS_DOMAIN" ]]; then
-		sed -i "s|demyx.|$WORDPRESS_DOMAIN.|g" /etc/nginx/nginx.conf
-		sed -i "s|demyx.error|$WORDPRESS_DOMAIN.error|g" /etc/php7/php-fpm.d/www.conf
+		sed -i "s|/var/log/demyx/demyx|/var/log/demyx/$WORDPRESS_DOMAIN|g" /etc/nginx/nginx.conf
 	fi
 
 	# Container replacement
