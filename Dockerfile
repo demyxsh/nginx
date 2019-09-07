@@ -160,12 +160,14 @@ RUN set -x; \
 # END BUILD CUSTOM MODULES
 #
 
-RUN set -ex; \
-    apk add --update --no-cache dumb-init
-
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY wp.conf /usr/src/wp.conf
+COPY demyx-entrypoint.sh /usr/local/bin/demyx-entrypoint
+
+RUN set -ex; \
+    apk add --update --no-cache dumb-init bash; \
+    chmod +x /usr/local/bin/demyx-entrypoint
+
 EXPOSE 80
 
-ENTRYPOINT ["dumb-init"]
-
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["dumb-init", "demyx-entrypoint"]

@@ -26,5 +26,13 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 
 ## Usage
 ```
-docker run -dit --rm --name nginx demyx/nginx
+docker run -dit --rm \
+--name nginx \
+-e WORDPRESS="false" \              # Only set to true if using for WordPress
+-e WORDPRESS_DOMAIN=domain.tld \    # Only set if using for WordPress
+-e DEMYX_UPLOAD_LIMIT=128M \
+-e DEMYX_NGINX_CACHE="false" \
+-e DEMYX_RATE_LIMIT="false" \
+-e TZ=America/Los_Angeles \
+demyx/nginx
 ```
