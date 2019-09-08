@@ -26,5 +26,17 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 
 ## Usage
 ```
-docker run -dit --rm --name nginx demyx/nginx
+docker run -dit --rm \
+--name nginx \
+-e WORDPRESS="false" \              # Only set to true if using for WordPress
+-e WORDPRESS_SERVICE=wp \           # Name of PHP/WordPress service
+-e NGINX_DOMAIN=domain.tld \        # WordPress only setting
+-e NGINX_UPLOAD_LIMIT=128M \
+-e NGINX_CACHE="off" \              # WordPress only setting
+-e NGINX_RATE_LIMIT="off" \         # WordPress only setting
+-e NGINX_BASIC_AUTH="" \            # WordPress only setting
+-e TZ=America/Los_Angeles \
+demyx/nginx
 ```
+* To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
+* DEMYX_BASIC_AUTH must have double dollar signs ($$)
