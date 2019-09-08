@@ -29,11 +29,12 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 docker run -dit --rm \
 --name nginx \
 -e WORDPRESS="false" \              # Only set to true if using for WordPress
--e WORDPRESS_DOMAIN=domain.tld \    # Only set if using for WordPress
--e DEMYX_UPLOAD_LIMIT=128M \
--e DEMYX_NGINX_CACHE="off" \
--e DEMYX_RATE_LIMIT="off" \
--e DEMYX_BASIC_AUTH="" \
+-e WORDPRESS_SERVICE=wp \           # Name of PHP/WordPress service
+-e NGINX_DOMAIN=domain.tld \        # WordPress only setting
+-e NGINX_UPLOAD_LIMIT=128M \
+-e NGINX_CACHE="off" \              # WordPress only setting
+-e NGINX_RATE_LIMIT="off" \         # WordPress only setting
+-e NGINX_BASIC_AUTH="" \            # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```
