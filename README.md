@@ -14,7 +14,7 @@ PORT | 80
 TIMEZONE | America/Los_Angeles
 NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 
-## Updates
+## Updates & Support
 [![Code Size](https://img.shields.io/github/languages/code-size/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
 [![Repository Size](https://img.shields.io/github/repo-size/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
 [![Watches](https://img.shields.io/github/watchers/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
@@ -23,6 +23,7 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 
 * Auto built weekly on Sundays (America/Los_Angeles)
 * Rolling release updates
+* For support: [#demyx](https://webchat.freenode.net/?channel=#demyx)
 
 ## Usage
 ```
