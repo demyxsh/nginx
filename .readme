@@ -40,4 +40,4 @@ docker run -dit --rm \
 demyx/nginx
 ```
 * To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
-* DEMYX_BASIC_AUTH must have double dollar signs ($$)
+* NGINX_BASIC_AUTH must have double dollar signs ($$)
