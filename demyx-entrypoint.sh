@@ -1,4 +1,6 @@
 #!/bin/bash
+# Demyx
+# https://demyx.sh
 
 # WordPress mode
 if [[ "$WORDPRESS" = true ]]; then
