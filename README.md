@@ -33,8 +33,8 @@ docker run -dit --rm \
 -e WORDPRESS_SERVICE=wp \           # Name of PHP/WordPress service
 -e NGINX_DOMAIN=domain.tld \        # WordPress only setting
 -e NGINX_UPLOAD_LIMIT=128M \
--e NGINX_CACHE="off" \              # WordPress only setting
--e NGINX_RATE_LIMIT="off" \         # WordPress only setting
+-e NGINX_CACHE=false \              # WordPress only setting
+-e NGINX_RATE_LIMIT=false \         # WordPress only setting
 -e NGINX_BASIC_AUTH="" \            # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
