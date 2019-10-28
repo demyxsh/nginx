@@ -121,40 +121,40 @@ RUN set -x \
 #
 RUN set -x; \
     apk add --no-cache --virtual .build-deps \
-	gcc \
-	libc-dev \
-	make \
-	openssl-dev \
-	pcre-dev \
-	zlib-dev \
-	linux-headers \
-	gnupg1 \
-	libxslt-dev \
-	gd-dev \
-	geoip-dev \
+    gcc \
+    libc-dev \
+    make \
+    openssl-dev \
+    pcre-dev \
+    zlib-dev \
+    linux-headers \
+    gnupg1 \
+    libxslt-dev \
+    gd-dev \
+    geoip-dev \
     git \
-	\
+    \
     && export NGINX_VERSION="$(wget -qO- https://raw.githubusercontent.com/nginxinc/docker-nginx/master/mainline/alpine/Dockerfile | grep 'ENV NGINX_VERSION' | cut -c 19-)" \
-	&& mkdir -p /usr/src \
+    && mkdir -p /usr/src \
     && git clone https://github.com/FRiCKLE/ngx_cache_purge.git /usr/src/ngx_cache_purge \
     && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module \
     && wget https://nginx.org/download/nginx-"$NGINX_VERSION".tar.gz -qO /usr/src/nginx.tar.gz \
-	&& tar -xzf /usr/src/nginx.tar.gz -C /usr/src \
-	&& rm /usr/src/nginx.tar.gz \
-	&& sed -i "s/HTTP_MODULES/#HTTP_MODULES/g" /usr/src/ngx_cache_purge/config \
-	&& sed -i "s/NGX_ADDON_SRCS/#NGX_ADDON_SRCS/g" /usr/src/ngx_cache_purge/config \
-	&& sed -i "s|ngx_addon_name=ngx_http_cache_purge_module|ngx_addon_name=ngx_http_cache_purge_module; if test -n \"\$ngx_module_link\"; then ngx_module_type=HTTP; ngx_module_name=ngx_http_cache_purge_module; ngx_module_srcs=\"\$ngx_addon_dir/ngx_cache_purge_module.c\"; . auto/module; else HTTP_MODULES=\"\$HTTP_MODULES ngx_http_cache_purge_module\"; NGX_ADDON_SRCS=\"\$NGX_ADDON_SRCS \$ngx_addon_dir/ngx_cache_purge_module.c\"; fi|g" /usr/src/ngx_cache_purge/config \
-	&& sed -i "s|ngx_addon_name=ngx_http_headers_more_filter_module|ngx_addon_name=ngx_http_headers_more_filter_module; if test -n \"\$ngx_module_link\"; then ngx_module_type=HTTP; ngx_module_name=ngx_http_headers_more_filter_module; ngx_module_srcs=\"\$ngx_addon_dir/ngx_http_headers_more_filter_module.c\"; . auto/module; else HTTP_MODULES=\"\$HTTP_MODULES ngx_http_headers_more_filter_module\"; NGX_ADDON_SRCS=\"\$NGX_ADDON_SRCS \$ngx_addon_dir/ngx_http_headers_more_filter_module.c\"; fi|g" /usr/src/headers-more-nginx-module/config \
-	&& cd /usr/src/nginx-"$NGINX_VERSION" \
-	&& ./configure --with-compat --add-dynamic-module=/usr/src/ngx_cache_purge \
-	&& make modules \
-	&& cp objs/ngx_http_cache_purge_module.so /etc/nginx/modules \
-	&& make clean \
-	&& ./configure --with-compat --add-dynamic-module=/usr/src/headers-more-nginx-module \
-	&& make modules \
-	&& cp objs/ngx_http_headers_more_filter_module.so /etc/nginx/modules \
-	&& rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
-	&& apk del .build-deps \
+    && tar -xzf /usr/src/nginx.tar.gz -C /usr/src \
+    && rm /usr/src/nginx.tar.gz \
+    && sed -i "s/HTTP_MODULES/#HTTP_MODULES/g" /usr/src/ngx_cache_purge/config \
+    && sed -i "s/NGX_ADDON_SRCS/#NGX_ADDON_SRCS/g" /usr/src/ngx_cache_purge/config \
+    && sed -i "s|ngx_addon_name=ngx_http_cache_purge_module|ngx_addon_name=ngx_http_cache_purge_module; if test -n \"\$ngx_module_link\"; then ngx_module_type=HTTP; ngx_module_name=ngx_http_cache_purge_module; ngx_module_srcs=\"\$ngx_addon_dir/ngx_cache_purge_module.c\"; . auto/module; else HTTP_MODULES=\"\$HTTP_MODULES ngx_http_cache_purge_module\"; NGX_ADDON_SRCS=\"\$NGX_ADDON_SRCS \$ngx_addon_dir/ngx_cache_purge_module.c\"; fi|g" /usr/src/ngx_cache_purge/config \
+    && sed -i "s|ngx_addon_name=ngx_http_headers_more_filter_module|ngx_addon_name=ngx_http_headers_more_filter_module; if test -n \"\$ngx_module_link\"; then ngx_module_type=HTTP; ngx_module_name=ngx_http_headers_more_filter_module; ngx_module_srcs=\"\$ngx_addon_dir/ngx_http_headers_more_filter_module.c\"; . auto/module; else HTTP_MODULES=\"\$HTTP_MODULES ngx_http_headers_more_filter_module\"; NGX_ADDON_SRCS=\"\$NGX_ADDON_SRCS \$ngx_addon_dir/ngx_http_headers_more_filter_module.c\"; fi|g" /usr/src/headers-more-nginx-module/config \
+    && cd /usr/src/nginx-"$NGINX_VERSION" \
+    && ./configure --with-compat --add-dynamic-module=/usr/src/ngx_cache_purge \
+    && make modules \
+    && cp objs/ngx_http_cache_purge_module.so /etc/nginx/modules \
+    && make clean \
+    && ./configure --with-compat --add-dynamic-module=/usr/src/headers-more-nginx-module \
+    && make modules \
+    && cp objs/ngx_http_headers_more_filter_module.so /etc/nginx/modules \
+    && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
+    && apk del .build-deps \
     && rm -rf /var/cache/apk/*
 #    
 # END BUILD CUSTOM MODULES
