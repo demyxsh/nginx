@@ -161,7 +161,7 @@ RUN set -x; \
 #
 
 # Copy configs
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /demyx/nginx.conf
 COPY wp.conf /demyx/wp.conf
 COPY cache /demyx/cache
 COPY common /demyx/common
