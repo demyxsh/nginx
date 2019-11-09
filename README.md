@@ -10,9 +10,11 @@ nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a
 
 TITLE | DESCRIPTION
 --- | ---
-PORT | 80
+USER | demyx
+PORT | 8080
+ENTRYPOINT | ["dumb-init", "demyx"]
 TIMEZONE | America/Los_Angeles
-NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
+CONFIGS | /demyx
 
 ## Updates & Support
 [![Code Size](https://img.shields.io/github/languages/code-size/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
@@ -29,13 +31,14 @@ NGINX | /etc/nginx/nginx.conf<br />/etc/nginx/modules
 ```
 docker run -dit --rm \
 --name nginx \
--e WORDPRESS="false" \              # Only set to true if using for WordPress
--e WORDPRESS_SERVICE=wp \           # Name of PHP/WordPress service
--e NGINX_DOMAIN=domain.tld \        # WordPress only setting
--e NGINX_UPLOAD_LIMIT=128M \
--e NGINX_CACHE=false \              # WordPress only setting
--e NGINX_RATE_LIMIT=false \         # WordPress only setting
--e NGINX_BASIC_AUTH="" \            # WordPress only setting
+-e WORDPRESS="true" \                   # Only set to true if using for WordPress
+-e WORDPRESS_CONTAINER=wp \             # Name of PHP/WordPress 
+-e WORDPRESS_DOMAIN=domain.tld \        # WordPress only setting
+-e WORDPRESS_UPLOAD_LIMIT=128M \        # WordPress only setting
+-e WORDPRESS_NGINX_CACHE=false \        # WordPress only setting
+-e WORDPRESS_NGINX_RATE_LIMIT=false \   # WordPress only setting
+-e WORDPRESS_NGINX_XMLRPC=false \       # WordPress only setting
+-e WORDPRESS_NGINX_BASIC_AUTH=false \   # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```

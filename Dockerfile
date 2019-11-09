@@ -14,8 +14,8 @@ RUN set -x \
     && export NGINX_VERSION="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV NGINX_VERSION' | cut -c 19-)" \
     && export NJS_VERSION="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV NJS_VERSION' | cut -c 19-)" \
     && export PKG_RELEASE="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV PKG_RELEASE' | cut -c 19-)" \
-    && addgroup -g 101 -S nginx \
-    && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
+    && addgroup -g 1000 -S demyx \
+    && adduser -S -D -H -u 1000 -h /tmp -s /sbin/nologin -G demyx -g demyx demyx \
     && apkArch="$(cat /etc/apk/arch)" \
     && nginxPackages=" \
         nginx=${NGINX_VERSION}-r${PKG_RELEASE} \
@@ -160,14 +160,25 @@ RUN set -x; \
 # END BUILD CUSTOM MODULES
 #
 
+# Copy configs
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY wp.conf /usr/src/wp.conf
-COPY demyx-entrypoint.sh /usr/local/bin/demyx-entrypoint
+COPY wp.conf /demyx/wp.conf
+COPY cache /demyx/cache
+COPY common /demyx/common
+COPY demyx.sh /usr/local/bin/demyx
 
+# Install custom packages and run customizations
 RUN set -ex; \
     apk add --update --no-cache dumb-init bash; \
-    chmod +x /usr/local/bin/demyx-entrypoint
+    mkdir -p /var/log/demyx; \
+    touch /etc/nginx/stdout; \
+    chown demyx:demyx /etc/nginx/stdout; \
+    chown -R demyx:demyx /var/log/demyx; \
+    chown -R demyx:demyx /demyx; \
+    chmod +x /usr/local/bin/demyx
 
-EXPOSE 80
+EXPOSE 8080
 
-ENTRYPOINT ["dumb-init", "demyx-entrypoint"]
+USER demyx
+
+ENTRYPOINT ["dumb-init", "demyx"]
