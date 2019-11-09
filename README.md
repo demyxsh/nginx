@@ -31,14 +31,14 @@ CONFIGS | /demyx
 ```
 docker run -dit --rm \
 --name nginx \
--e WORDPRESS="true" \                   # Only set to true if using for WordPress
--e WORDPRESS_CONTAINER=wp \             # Name of PHP/WordPress 
--e WORDPRESS_DOMAIN=domain.tld \        # WordPress only setting
--e WORDPRESS_UPLOAD_LIMIT=128M \        # WordPress only setting
--e WORDPRESS_NGINX_CACHE=false \        # WordPress only setting
--e WORDPRESS_NGINX_RATE_LIMIT=false \   # WordPress only setting
--e WORDPRESS_NGINX_XMLRPC=false \       # WordPress only setting
--e WORDPRESS_NGINX_BASIC_AUTH=false \   # WordPress only setting
+-e WORDPRESS="true" \               # Only set to true if using for WordPress
+-e WORDPRESS_CONTAINER=wp \         # Name of PHP/WordPress container
+-e NGINX_DOMAIN=domain.tld \        # WordPress only setting
+-e NGINX_UPLOAD_LIMIT=128M \        # WordPress only setting
+-e NGINX_CACHE=false \              # WordPress only setting
+-e NGINX_RATE_LIMIT=false \         # WordPress only setting
+-e NGINX_XMLRPC=false \             # WordPress only setting
+-e NGINX_BASIC_AUTH=false \         # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```
