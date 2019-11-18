@@ -8,10 +8,10 @@
 
 nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev.
 
-TITLE | DESCRIPTION
+DEMYX | NGINX
 --- | ---
 USER | demyx
-PORT | 8080
+PORT | 80
 ENTRYPOINT | ["dumb-init", "demyx"]
 TIMEZONE | America/Los_Angeles
 CONFIGS | /demyx
@@ -28,6 +28,9 @@ CONFIGS | /demyx
 * For support: [#demyx](https://webchat.freenode.net/?channel=#demyx)
 
 ## Usage
+* To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
+* NGINX_BASIC_AUTH must have double dollar signs ($$)
+
 ```
 docker run -dit --rm \
 --name nginx \
@@ -42,5 +45,3 @@ docker run -dit --rm \
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```
-* To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
-* NGINX_BASIC_AUTH must have double dollar signs ($$)

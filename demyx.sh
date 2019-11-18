@@ -10,6 +10,13 @@ if [[ -n "$NGINX_DOMAIN" && "$WORDPRESS" = true ]]; then
     sed -i "s|/var/log/demyx/demyx|/var/log/demyx/$NGINX_DOMAIN|g" "$NGINX_CONFIG"
 fi
 
+# Bedrock mode
+if [[ "$WORDPRESS_BEDROCK" = true && "$WORDPRESS" = true ]]; then
+    sed -i "s|/var/www/html|/var/www/html/web|g" "$NGINX_CONFIG"
+    sed -i "s|#bedrock|include /demyx/bedrock.conf;|g" "$NGINX_CONFIG"
+    sed -i "s|/wp-login.php|/wp/wp-login.php|g" /demyx/common/wpcommon.conf
+fi
+
 # WordPress container name
 if [[ -n "$WORDPRESS_CONTAINER" ]]; then
     sed -i "s|wp:9000|${WORDPRESS_CONTAINER}:9000|g" "$NGINX_CONFIG"
@@ -50,4 +57,4 @@ if [[ "$WORDPRESS_NGINX_BASIC_AUTH" = on && "$WORDPRESS" = true || "$WORDPRESS_N
     sed -i "s|#auth_basic|auth_basic|g" /demyx/common/wpcommon.conf
 fi
 
-nginx -c "$NGINX_CONFIG" -g 'daemon off;'
+sudo nginx -c "$NGINX_CONFIG" -g 'daemon off;'
