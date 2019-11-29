@@ -183,6 +183,10 @@ RUN set -ex; \
     chown demyx:demyx /etc/nginx/stdout; \
     chown -R demyx:demyx /var/log/demyx; \
     chown -R demyx:demyx /demyx; \
+    mv /demyx/wp.sh /usr/local/bin/demyx-wp; \
+    mv /demyx/default.sh /usr/local/bin/demyx-default; \
+    chmod +x /usr/local/bin/demyx-wp; \
+    chmod +x /usr/local/bin/demyx-default; \
     chmod +x /usr/local/bin/demyx
 
 EXPOSE 80
