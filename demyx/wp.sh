@@ -29,7 +29,7 @@ fi
 if [[ "$NGINX_RATE_LIMIT" = on || "$NGINX_RATE_LIMIT" = true ]]; then
     NGINX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
     NGINX_RATE_LIMIT_LOCATION="limit_req zone=ip burst=5 nodelay;
-    limit_req zone=server burst=5;"
+    limit_req zone=server burst=10;"
 fi
 
 # NGINX xmlrpc.php
@@ -128,7 +128,7 @@ http {
   limit_req_status 503;
   limit_req_zone \$request_uri zone=common:10m rate=1r/s;
   limit_req_zone \$binary_remote_addr zone=ip:10m rate=1r/s;
-  limit_req_zone \$server_name zone=server:10m rate=5r/s;
+  limit_req_zone \$server_name zone=server:10m rate=10r/s;
   limit_conn_zone \$binary_remote_addr zone=addr:10m;
 
   server {
