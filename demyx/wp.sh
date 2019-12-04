@@ -28,7 +28,8 @@ fi
 # NGINX rate limiting
 if [[ "$NGINX_RATE_LIMIT" = on || "$NGINX_RATE_LIMIT" = true ]]; then
     NGINX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
-    NGINX_RATE_LIMIT_LOCATION="limit_req zone=one burst=5 nodelay;"
+    NGINX_RATE_LIMIT_LOCATION="limit_req zone=ip burst=5 nodelay;
+    limit_req zone=server burst=5;"
 fi
 
 # NGINX xmlrpc.php
@@ -106,10 +107,6 @@ http {
   resolver 1.1.1.1 1.0.0.1 valid=300s;
   resolver_timeout 10;
 
-  limit_req_status 503;
-  limit_req_zone \$request_uri zone=one:10m rate=1r/s;
-  limit_conn_zone \$binary_remote_addr zone=addr:10m;
-  
   gzip off;
 
   upstream php {
@@ -126,7 +123,13 @@ http {
   add_header Feature-Policy \"geolocation 'self'; midi 'self'; sync-xhr 'self'; microphone 'self'; camera 'self'; magnetometer 'self'; gyroscope 'self'; speaker 'self'; fullscreen 'self'; payment 'self'; usb 'self'\";
   add_header Strict-Transport-Security \"max-age=31536000; preload; includeSubDomains\" always;
 
-  ${NGINX_CACHE_HTTP:-#include /demyx/cache/http.conf;}
+  ${NGINX_CACHE_HTTP:-}
+
+  limit_req_status 503;
+  limit_req_zone \$request_uri zone=common:10m rate=1r/s;
+  limit_req_zone \$binary_remote_addr zone=ip:10m rate=1r/s;
+  limit_req_zone \$server_name zone=server:10m rate=5r/s;
+  limit_conn_zone \$binary_remote_addr zone=addr:10m;
 
   server {
     listen 80;
@@ -136,16 +139,15 @@ http {
     access_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.access.log main;
     error_log stderr notice;
     error_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.error.log;
-
-    ${NGINX_REAL_IP:-}
-
     disable_symlinks off;
 
-    ${NGINX_CACHE_SERVER:-#include /demyx/cache/server.conf;}
+    ${NGINX_REAL_IP:-}
+    ${NGINX_CACHE_SERVER:-}
+    ${NGINX_RATE_LIMIT_CONNECTION:-}
+    ${NGINX_RATE_LIMIT_LOCATION:-}
 
     location / {
       try_files \$uri \$uri/ /index.php?\$args;
-      ${NGINX_RATE_LIMIT_CONNECTION:-#limit_conn addr 5;}
       ${NGINX_BEDROCK:-}
     }
 
@@ -158,8 +160,7 @@ http {
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
       include /etc/nginx/fastcgi_params;
-      ${NGINX_RATE_LIMIT_LOCATION:-#limit_req zone=one burst=5 nodelay;}
-      ${NGINX_CACHE_LOCATION:-#include /demyx/cache/location.conf;}
+      ${NGINX_CACHE_LOCATION:-}
     }
 
     include /demyx/common/*.conf;
