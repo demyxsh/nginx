@@ -166,7 +166,8 @@ COPY demyx.sh /usr/local/bin/demyx
 
 # Install custom packages and run customizations
 RUN set -ex; \
-    apk add --update --no-cache dumb-init bash sudo; \
+    apk add --update --no-cache dumb-init sudo; \
+    \
     echo "demyx ALL=(ALL) NOPASSWD:/usr/sbin/nginx" >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_BEDROCK"' >> /etc/sudoers.d/demyx; \
@@ -178,13 +179,17 @@ RUN set -ex; \
     echo 'Defaults env_keep +="NGINX_XMLRPC"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_NGINX_BASIC_AUTH"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="TZ"' >> /etc/sudoers.d/demyx; \
-    mkdir -p /var/log/demyx; \
+    \
+    install -d -m 0755 -o demyx -g demyx /var/log/demyx; \
+    \
     touch /etc/nginx/stdout; \
+    \
     chown demyx:demyx /etc/nginx/stdout; \
-    chown -R demyx:demyx /var/log/demyx; \
     chown -R demyx:demyx /demyx; \
+    \
     mv /demyx/wp.sh /usr/local/bin/demyx-wp; \
     mv /demyx/default.sh /usr/local/bin/demyx-default; \
+    \
     chmod +x /usr/local/bin/demyx-wp; \
     chmod +x /usr/local/bin/demyx-default; \
     chmod +x /usr/local/bin/demyx
