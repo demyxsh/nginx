@@ -164,7 +164,16 @@ RUN set -x; \
 COPY demyx /demyx
 COPY demyx.sh /usr/local/bin/demyx
 
-# Install custom packages and run customizations
+# Error pages - https://github.com/alexphelps/server-error-pages
+RUN set -x; \
+    apk add --no-cache --virtual .error-deps git; \
+    \
+    git clone https://github.com/alexphelps/server-error-pages.git /demyx/error; \
+    \
+    apk del .error-deps; \
+    rm -rf /var/cache/apk/*
+
+# Install packages and run customizations
 RUN set -ex; \
     apk add --update --no-cache dumb-init sudo; \
     \
