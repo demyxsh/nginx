@@ -6,12 +6,12 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Get versions
-DEMYX_ALPINE_VERSION=$(docker exec -t nginx cat /etc/os-release | grep VERSION_ID | cut -c 12- | sed -e 's/\r//g')
-DEMYX_NGINX_VERSION=$(docker exec -t nginx nginx -V | grep 'nginx version' | cut -c 22- | sed -e 's/\r//g')
+DEMYX_ALPINE_VERSION=$(docker exec -t "$DEMYX_REPOSITORY" cat /etc/os-release | grep VERSION_ID | cut -c 12- | sed -e 's/\r//g')
+DEMYX_NGINX_VERSION=$(docker exec -t "$DEMYX_REPOSITORY" "$DEMYX_REPOSITORY" -V | grep "$DEMYX_REPOSITORY version" | cut -c 22- | sed -e 's/\r//g')
 
 # Replace versions
 sed -i "s|alpine-.*.-informational|alpine-${DEMYX_ALPINE_VERSION}-informational|g" README.md
-sed -i "s|nginx-.*.-informational|nginx-${DEMYX_NGINX_VERSION}-informational|g" README.md
+sed -i "s|$DEMYX_REPOSITORY-.*.-informational|$DEMYX_REPOSITORY-${DEMYX_NGINX_VERSION}-informational|g" README.md
 
 # Push back to GitHub
 git config --global user.email "travis@travis-ci.org"

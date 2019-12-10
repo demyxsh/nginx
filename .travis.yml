@@ -17,8 +17,8 @@ before_install:
 
 script:
   - docker build --no-cache -t demyx/"$DEMYX_REPOSITORY" .
-  - docker run -d --rm --name nginx demyx/"$DEMYX_REPOSITORY"
-  - docker exec -t nginx nginx -V
+  - docker run -d --rm --name="$DEMYX_REPOSITORY" demyx/"$DEMYX_REPOSITORY"
+  - docker exec -t "$DEMYX_REPOSITORY" "$DEMYX_REPOSITORY" -V
 
 after_success:
   - echo "$DEMYX_PASSWORD" | docker login -u "$DEMYX_USERNAME" --password-stdin
