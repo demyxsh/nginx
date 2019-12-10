@@ -112,4 +112,4 @@ http {
 
       disable_symlinks off;
     }
-}" > /demyx/default.conf
+}" > "$NGINX_CONFIG"/default.conf

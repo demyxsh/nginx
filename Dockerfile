@@ -6,6 +6,10 @@ LABEL sh.demyx.url https://demyx.sh
 LABEL sh.demyx.github https://github.com/demyxco
 LABEL sh.demyx.registry https://hub.docker.com/u/demyx
 
+# Set default variables
+ENV NGINX_ROOT=/demyx
+ENV NGINX_CONFIG=/etc/demyx
+ENV NGINX_LOG=/var/log/demyx
 ENV TZ America/Los_Angeles
 
 RUN set -x \
@@ -160,15 +164,16 @@ RUN set -x; \
 # END BUILD CUSTOM MODULES
 #
 
-# Copy configs
-COPY demyx /demyx
+# Copy files
+COPY --chown=demyx:demyx demyx "$NGINX_CONFIG"
 COPY demyx.sh /usr/local/bin/demyx
 
 # Error pages - https://github.com/alexphelps/server-error-pages
 RUN set -x; \
     apk add --no-cache --virtual .error-deps git; \
     \
-    git clone https://github.com/alexphelps/server-error-pages.git /demyx/error; \
+    git clone https://github.com/alexphelps/server-error-pages.git "$NGINX_CONFIG"/error; \
+    chown -R demyx:demyx "$NGINX_CONFIG"/error; \
     \
     apk del .error-deps; \
     rm -rf /var/cache/apk/*
@@ -177,7 +182,7 @@ RUN set -x; \
 RUN set -ex; \
     apk add --update --no-cache dumb-init sudo; \
     \
-    echo "demyx ALL=(ALL) NOPASSWD:/usr/sbin/nginx" >> /etc/sudoers.d/demyx; \
+    echo "demyx ALL=(ALL) NOPASSWD:/usr/sbin/nginx" > /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_BEDROCK"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_DOMAIN"' >> /etc/sudoers.d/demyx; \
@@ -189,21 +194,23 @@ RUN set -ex; \
     echo 'Defaults env_keep +="WORDPRESS_NGINX_BASIC_AUTH"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="TZ"' >> /etc/sudoers.d/demyx; \
     \
-    install -d -m 0755 -o demyx -g demyx /var/log/demyx; \
+    install -d -m 0755 -o demyx -g demyx "$NGINX_ROOT"; \
+    install -d -m 0755 -o demyx -g demyx "$NGINX_LOG"; \
     \
     touch /etc/nginx/stdout; \
     \
     chown demyx:demyx /etc/nginx/stdout; \
-    chown -R demyx:demyx /demyx; \
     \
-    mv /demyx/wp.sh /usr/local/bin/demyx-wp; \
-    mv /demyx/default.sh /usr/local/bin/demyx-default; \
+    mv "$NGINX_CONFIG"/wp.sh /usr/local/bin/demyx-wp; \
+    mv "$NGINX_CONFIG"/default.sh /usr/local/bin/demyx-default; \
     \
     chmod +x /usr/local/bin/demyx-wp; \
     chmod +x /usr/local/bin/demyx-default; \
     chmod +x /usr/local/bin/demyx
 
 EXPOSE 80
+
+WORKDIR "$NGINX_ROOT"
 
 USER demyx
 

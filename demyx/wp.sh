@@ -5,9 +5,9 @@ set -euo pipefail
 
 # Bedrock config
 if [[ "${WORDPRESS_BEDROCK:-false}" = true && "$WORDPRESS" = true ]]; then
-    NGINX_ROOT=/var/www/html/web
-    NGINX_BEDROCK="include /demyx/bedrock.conf;"
-    sed -i "s|/wp-login.php|/wp/wp-login.php|g" /demyx/common/wpcommon.conf
+    NGINX_ROOT="$NGINX_ROOT"/web
+    NGINX_BEDROCK="include "$NGINX_CONFIG"/bedrock.conf;"
+    sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$NGINX_CONFIG"/common/wpcommon.conf
 fi
 
 # Cloudflare check
@@ -20,9 +20,9 @@ fi
 
 # NGINX FastCGI cache
 if [[ "$NGINX_CACHE" = on && "$WORDPRESS" = true || "$NGINX_CACHE" = true && "$WORDPRESS" = true ]]; then
-    NGINX_CACHE_HTTP="include /demyx/cache/http.conf;"
-    NGINX_CACHE_SERVER="include /demyx/cache/server.conf;"
-    NGINX_CACHE_LOCATION="include /demyx/cache/location.conf;"
+    NGINX_CACHE_HTTP="include "$NGINX_CONFIG"/cache/http.conf;"
+    NGINX_CACHE_SERVER="include "$NGINX_CONFIG"/cache/server.conf;"
+    NGINX_CACHE_LOCATION="include "$NGINX_CONFIG"/cache/location.conf;"
 fi
 
 # NGINX rate limiting
@@ -34,13 +34,13 @@ fi
 
 # NGINX xmlrpc.php
 if [[ "$NGINX_XMLRPC" = on && "$WORDPRESS" = true || "$NGINX_XMLRPC" = true && "$WORDPRESS" = true ]]; then
-    mv /demyx/common/xmlrpc.conf /demyx/common/xmlrpc.on
+    mv "$NGINX_CONFIG"/common/xmlrpc.conf "$NGINX_CONFIG"/common/xmlrpc.on
 fi
 
 # NGINX Basic auth
-if [[ "${WORDPRESS_NGINX_BASIC_AUTH:-false}" = on && "$WORDPRESS" = true || "${WORDPRESS_NGINX_BASIC_AUTH:-false}" = true && "$WORDPRESS" = true ]]; then
-    echo "$WORDPRESS_NGINX_BASIC_AUTH" > /demyx/.htpasswd
-    sed -i "s|#auth_basic|auth_basic|g" /demyx/common/wpcommon.conf
+if [[ "${NGINX_BASIC_AUTH:-}" != false && "$WORDPRESS" = true || "${NGINX_BASIC_AUTH:-}" != false && "$WORDPRESS" = true ]]; then
+    echo "$NGINX_BASIC_AUTH" > "$NGINX_CONFIG"/.htpasswd
+    sed -i "s|#auth_basic|auth_basic|g" "$NGINX_CONFIG"/common/wpcommon.conf
 fi
 
 echo "# Demyx
@@ -50,8 +50,8 @@ load_module /etc/nginx/modules/ngx_http_cache_purge_module.so;
 load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 
 error_log stderr notice;
-error_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.error.log;
-pid /demyx/nginx.pid;
+error_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.error.log;
+pid ${NGINX_CONFIG}/nginx.pid;
 
 worker_processes auto;
 worker_cpu_affinity auto;
@@ -79,7 +79,7 @@ http {
   default_type application/octet-stream;
 
   access_log stdout;
-  access_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.access.log main;
+  access_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.access.log main;
   
   tcp_nopush on;
   tcp_nodelay on;
@@ -132,12 +132,12 @@ http {
 
   server {
     listen 80;
-    root ${NGINX_ROOT:-/var/www/html};
+    root ${NGINX_ROOT};
     index index.php index.html index.htm;
     access_log stdout;
-    access_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.access.log main;
+    access_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.access.log main;
     error_log stderr notice;
-    error_log /var/log/demyx/${NGINX_DOMAIN:-demyx}.error.log;
+    error_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.error.log;
     disable_symlinks off;
 
     ${NGINX_REAL_IP:-}
@@ -162,6 +162,6 @@ http {
       ${NGINX_CACHE_LOCATION:-}
     }
 
-    include /demyx/common/*.conf;
+    include ${NGINX_CONFIG}/common/*.conf;
   }
-}" > /demyx/wp.conf
+}" > "$NGINX_CONFIG"/wp.conf
