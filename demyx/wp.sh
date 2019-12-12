@@ -38,7 +38,8 @@ if [[ "$NGINX_XMLRPC" = on && "$WORDPRESS" = true || "$NGINX_XMLRPC" = true && "
 fi
 
 # NGINX Basic auth
-if [[ "${NGINX_BASIC_AUTH:-}" != false && "$WORDPRESS" = true || "${NGINX_BASIC_AUTH:-}" != false && "$WORDPRESS" = true ]]; then
+NGINX_BASIC_AUTH="${NGINX_BASIC_AUTH:-}"
+if [[ "${NGINX_BASIC_AUTH}" != false && "$WORDPRESS" = true || "${NGINX_BASIC_AUTH}" != false && "$WORDPRESS" = true ]]; then
     echo "$NGINX_BASIC_AUTH" > "$NGINX_CONFIG"/.htpasswd
     sed -i "s|#auth_basic|auth_basic|g" "$NGINX_CONFIG"/common/wpcommon.conf
 fi
