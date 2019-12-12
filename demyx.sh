@@ -8,11 +8,9 @@ set -euo pipefail
 
 # Generate config
 if [[ "$WORDPRESS" = true ]]; then
-    NGINX_FILE="$NGINX_CONFIG"/wp.conf
-    [[ ! -f "$NGINX_CONFIG"/wp.conf ]] && demyx-wp
+    [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-wp
 else
-    NGINX_FILE="$NGINX_CONFIG"/default.conf
-    [[ ! -f "$NGINX_CONFIG"/default.conf ]] && demyx-default
+    [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-default
 fi
 
-sudo nginx -c "$NGINX_FILE" -g 'daemon off;'
+sudo nginx -c "$NGINX_CONFIG"/nginx.conf -g 'daemon off;'

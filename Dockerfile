@@ -12,14 +12,24 @@ ENV NGINX_CONFIG=/etc/demyx
 ENV NGINX_LOG=/var/log/demyx
 ENV TZ America/Los_Angeles
 
+# Configure Demyx
+RUN set -ex; \
+    addgroup -g 1000 -S demyx; \
+    adduser -u 1000 -D -S -G demyx demyx; \
+    \
+    install -d -m 0755 -o demyx -g demyx "$NGINX_ROOT"; \
+    install -d -m 0755 -o demyx -g demyx "$NGINX_CONFIG"; \
+    install -d -m 0755 -o demyx -g demyx "$NGINX_LOG"
+
+# Install NGINX
 RUN set -x \
 # create nginx user/group first, to be consistent throughout docker variants
     && export NGINX_MAINLINE_DOCKERFILE="$(wget -qO- https://raw.githubusercontent.com/nginxinc/docker-nginx/master/mainline/alpine/Dockerfile)" \
     && export NGINX_VERSION="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV NGINX_VERSION' | cut -c 19-)" \
     && export NJS_VERSION="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV NJS_VERSION' | cut -c 19-)" \
     && export PKG_RELEASE="$(echo "$NGINX_MAINLINE_DOCKERFILE" | grep 'ENV PKG_RELEASE' | cut -c 19-)" \
-    && addgroup -g 1000 -S demyx \
-    && adduser -S -D -H -u 1000 -h /tmp -s /sbin/nologin -G demyx -g demyx demyx \
+    && addgroup -g 101 -S nginx \
+    && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && apkArch="$(cat /etc/apk/arch)" \
     && nginxPackages=" \
         nginx=${NGINX_VERSION}-r${PKG_RELEASE} \
@@ -34,21 +44,17 @@ RUN set -x \
             set -x \
             && KEY_SHA512="e7fa8303923d9b95db37a77ad46c68fd4755ff935d0a534d26eba83de193c76166c68bfe7f65471bf8881004ef4aa6df3e34689c305662750c0172fca5d8552a *stdin" \
             && apk add --no-cache --virtual .cert-deps \
-                openssl curl ca-certificates \
-            && curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
+                openssl \
+            && wget -O /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
             && if [ "$(openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout | openssl sha512 -r)" = "$KEY_SHA512" ]; then \
-                 echo "key verification succeeded!"; \
-                 mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/; \
-               else \
-                 echo "key verification failed!"; \
-                 exit 1; \
-               fi \
-            && printf "%s%s%s\n" \
-                "https://nginx.org/packages/mainline/alpine/v" \
-                `egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release` \
-                "/main" \
-            | tee -a /etc/apk/repositories \
+                echo "key verification succeeded!"; \
+                mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/; \
+            else \
+                echo "key verification failed!"; \
+                exit 1; \
+            fi \
             && apk del .cert-deps \
+            && apk add -X "https://nginx.org/packages/mainline/alpine/v$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" --no-cache $nginxPackages \
             ;; \
         *) \
 # we're on an architecture upstream doesn't officially build for
@@ -73,7 +79,7 @@ RUN set -x \
                 bash \
                 alpine-sdk \
                 findutils \
-            && su - nobody -s /bin/sh -c " \
+            && su nobody -s /bin/sh -c " \
                 export HOME=${tempDir} \
                 && cd ${tempDir} \
                 && hg clone https://hg.nginx.org/pkg-oss \
@@ -84,18 +90,15 @@ RUN set -x \
                 && apk index -o ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz ${tempDir}/packages/alpine/${apkArch}/*.apk \
                 && abuild-sign -k ${tempDir}/.abuild/abuild-key.rsa ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz \
                 " \
-            && echo "${tempDir}/packages/alpine/" >> /etc/apk/repositories \
             && cp ${tempDir}/.abuild/abuild-key.rsa.pub /etc/apk/keys/ \
             && apk del .build-deps \
+            && apk add -X ${tempDir}/packages/alpine/ --no-cache $nginxPackages \
             ;; \
     esac \
-    && apk add --no-cache $nginxPackages \
 # if we have leftovers from building, let's purge them (including extra, unnecessary build deps)
     && if [ -n "$tempDir" ]; then rm -rf "$tempDir"; fi \
     && if [ -n "/etc/apk/keys/abuild-key.rsa.pub" ]; then rm -f /etc/apk/keys/abuild-key.rsa.pub; fi \
     && if [ -n "/etc/apk/keys/nginx_signing.rsa.pub" ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi \
-# remove the last line with the packages repos in the repositories file
-    && sed -i '$ d' /etc/apk/repositories \
 # Bring in gettext so we can get `envsubst`, then throw
 # the rest away. To do this, we need to install `gettext`
 # then move `envsubst` out of the way so `gettext` can
@@ -123,7 +126,7 @@ RUN set -x \
 #    
 # BUILD CUSTOM MODULES
 #
-RUN set -x; \
+RUN set -ex; \
     apk add --no-cache --virtual .build-deps \
     gcc \
     libc-dev \
@@ -194,18 +197,17 @@ RUN set -ex; \
     echo 'Defaults env_keep +="WORDPRESS_NGINX_BASIC_AUTH"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="TZ"' >> /etc/sudoers.d/demyx; \
     \
-    install -d -m 0755 -o demyx -g demyx "$NGINX_ROOT"; \
-    install -d -m 0755 -o demyx -g demyx "$NGINX_LOG"; \
-    \
     touch /etc/nginx/stdout; \
     \
     chown demyx:demyx /etc/nginx/stdout; \
     \
-    mv "$NGINX_CONFIG"/wp.sh /usr/local/bin/demyx-wp; \
     mv "$NGINX_CONFIG"/default.sh /usr/local/bin/demyx-default; \
+    mv "$NGINX_CONFIG"/reload.sh /usr/local/bin/demyx-reload; \
+    mv "$NGINX_CONFIG"/wp.sh /usr/local/bin/demyx-wp; \
     \
-    chmod +x /usr/local/bin/demyx-wp; \
     chmod +x /usr/local/bin/demyx-default; \
+    chmod +x /usr/local/bin/demyx-reload; \
+    chmod +x /usr/local/bin/demyx-wp; \
     chmod +x /usr/local/bin/demyx
 
 EXPOSE 80
