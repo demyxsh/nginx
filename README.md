@@ -30,7 +30,8 @@ docker run -dit --rm \
 -e NGINX_CONFIG=/etc/demyx \
 -e NGINX_LOG=/var/log/demyx \
 -e WORDPRESS="true" \               # Only set to true if using for WordPress
--e WORDPRESS_CONTAINER=wp \         # Name of PHP/WordPress container
+-e WORDPRESS_CONTAINER=wp \         # PHP/WordPress container name
+-e WORDPRESS_CONTAINER_PORT=9000 \  # PHP/WordPress container port
 -e NGINX_DOMAIN=domain.tld \        # WordPress only setting
 -e NGINX_UPLOAD_LIMIT=128M \        # WordPress only setting
 -e NGINX_CACHE=false \              # WordPress only setting

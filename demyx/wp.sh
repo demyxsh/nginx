@@ -111,7 +111,7 @@ http {
   gzip off;
 
   upstream php {
-    server ${WORDPRESS_CONTAINER:-wp}:9000;
+    server ${WORDPRESS_CONTAINER:-wp}:${WORDPRESS_CONTAINER_PORT:-9000};
   }
 
   add_header X-Powered-By \"Demyx\";
