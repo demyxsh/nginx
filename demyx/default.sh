@@ -112,4 +112,4 @@ http {
 
       disable_symlinks off;
     }
-}" > "$NGINX_CONFIG"/default.conf
+}" > "$NGINX_CONFIG"/nginx.conf

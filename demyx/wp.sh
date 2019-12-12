@@ -165,4 +165,4 @@ http {
 
     include ${NGINX_CONFIG}/common/*.conf;
   }
-}" > "$NGINX_CONFIG"/wp.conf
+}" > "$NGINX_CONFIG"/nginx.conf
