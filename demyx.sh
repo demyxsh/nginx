@@ -6,6 +6,9 @@ set -euo pipefail
 # Compatibility with old paths
 [[ -d /var/www/html ]] && NGINX_ROOT=/var/www/html
 
+# Set WORDPRESS variable to false by default
+WORDPRESS="${WORDPRESS:-false}"
+
 # Generate config
 if [[ "$WORDPRESS" = true ]]; then
     [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-wp
