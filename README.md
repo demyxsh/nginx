@@ -38,6 +38,7 @@ docker run -dit --rm \
 -e NGINX_RATE_LIMIT=false \         # WordPress only setting
 -e NGINX_XMLRPC=false \             # WordPress only setting
 -e NGINX_BASIC_AUTH=false \         # WordPress only setting
+-e NGINX_BASIC_AUTH_HTPASSWD= \     # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```
