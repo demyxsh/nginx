@@ -6,8 +6,13 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Get versions
-DEMYX_ALPINE_VERSION=$(docker exec -t "$DEMYX_REPOSITORY" cat /etc/os-release | grep VERSION_ID | cut -c 12- | sed -e 's/\r//g')
-DEMYX_NGINX_VERSION=$(docker exec -t "$DEMYX_REPOSITORY" "$DEMYX_REPOSITORY" -V | grep "$DEMYX_REPOSITORY version" | cut -c 22- | sed -e 's/\r//g')
+DEMYX_ALPINE_VERSION="$(docker exec -t demyx_nx cat /etc/os-release | grep VERSION_ID | cut -c 12- | sed -e 's/\r//g')"
+DEMYX_NGINX_VERSION="$(docker exec -t demyx_nx "$DEMYX_REPOSITORY" -V | grep "$DEMYX_REPOSITORY version" | cut -c 22- | sed -e 's/\r//g')"
+
+# Echo versions to file
+echo "DEMYX_ALPINE_VERSION=$DEMYX_ALPINE_VERSION
+DEMYX_NGINX_VERSION=$DEMYX_NGINX_VERSION
+" > VERSION
 
 # Replace versions
 sed -i "s|alpine-.*.-informational|alpine-${DEMYX_ALPINE_VERSION}-informational|g" README.md
@@ -17,7 +22,13 @@ sed -i "s|$DEMYX_REPOSITORY-.*.-informational|$DEMYX_REPOSITORY-${DEMYX_NGINX_VE
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 git remote set-url origin https://${DEMYX_GITHUB_TOKEN}@github.com/demyxco/"$DEMYX_REPOSITORY".git
-git add .; git commit -m "Travis Build $TRAVIS_BUILD_NUMBER"; git push origin HEAD:master
+# Add and commit version file first
+git add VERSION
+git commit -m "ALPINE $DEMYX_ALPINE_VERSION, NGINX $DEMYX_NGINX_VERSION"
+# Add and commit the rest
+git add .
+git commit -m "Travis Build $TRAVIS_BUILD_NUMBER"
+git push origin HEAD:master
 
 # Set the default path to README.md
 README_FILEPATH="./README.md"
