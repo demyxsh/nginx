@@ -14,11 +14,20 @@ env:
 
 before_install:
   - docker pull alpine
+  - docker pull demyx/mariadb
+  - docker pull demyx/wordpress
+  - docker pull demyx/wordpress:cli
+  - docker pull demyx/utilities
+  - docker network create demyx
 
 script:
   - docker build --no-cache -t demyx/"$DEMYX_REPOSITORY" .
-  - docker run -d --rm --name="$DEMYX_REPOSITORY" demyx/"$DEMYX_REPOSITORY"
-  - docker exec -t "$DEMYX_REPOSITORY" "$DEMYX_REPOSITORY" -V
+  - docker run -d --name=demyx_db --network=demyx -e MARIADB_DATABASE=demyx -e MARIADB_USERNAME=demyx -e MARIADB_PASSWORD=demyx -e MARIADB_ROOT_PASSWORD=demyx demyx/mariadb
+  - docker run -d --name=demyx_wp --network=demyx -v demyx_wp:/demyx -e WORDPRESS_DB_HOST=demyx_db -e WORDPRESS_DB_NAME=demyx -e WORDPRESS_DB_USER=demyx -e WORDPRESS_DB_PASSWORD=demyx demyx/wordpress
+  - sleep 5
+  - docker run --network=demyx --volumes-from=demyx_wp --workdir=/demyx demyx/wordpress:cli core install --url=http://localhost --title=demyx --admin_user=demyx --admin_password=demyx --admin_email=info@domain.tld --skip-email
+  - docker run -dit --name=demyx_nx --network=demyx -v demyx_wp:/demyx -e WORDPRESS=true -e WORDPRESS_CONTAINER=demyx_wp -e WORDPRESS_CONTAINER_PORT=9000 -e NGINX_DOMAIN=localhost demyx/"$DEMYX_REPOSITORY"
+  - docker exec --user=root demyx_nx sh -c "apk add curl; curl -s http://localhost | grep 'Hello world'"
 
 after_success:
   - echo "$DEMYX_PASSWORD" | docker login -u "$DEMYX_USERNAME" --password-stdin
