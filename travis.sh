@@ -26,7 +26,7 @@ git config --global user.name "Travis CI"
 git remote set-url origin https://${DEMYX_GITHUB_TOKEN}@github.com/demyxco/"$DEMYX_REPOSITORY".git
 # Add and commit version file first
 git add VERSION
-git commit -m "ALPINE $DEMYX_ALPINE_VERSION, NGINX $DEMYX_NGINX_VERSION"
+git commit -m "$DEMYX_ALPINE_PRETTY_VERSION, $DEMYX_NGINX_PRETTY_VERSION"
 # Add and commit the rest
 git add .
 git commit -m "Travis Build $TRAVIS_BUILD_NUMBER"
