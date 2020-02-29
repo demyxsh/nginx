@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Demyx
 # https://demyx.sh
 # https://github.com/peter-evans/dockerhub-description/blob/master/entrypoint.sh
