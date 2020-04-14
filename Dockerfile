@@ -1,19 +1,19 @@
 FROM alpine
 
-LABEL sh.demyx.image demyx/nginx
-LABEL sh.demyx.maintainer Demyx <info@demyx.sh>
-LABEL sh.demyx.url https://demyx.sh
-LABEL sh.demyx.github https://github.com/demyxco
-LABEL sh.demyx.registry https://hub.docker.com/u/demyx
+LABEL sh.demyx.image        demyx/nginx
+LABEL sh.demyx.maintainer   Demyx <info@demyx.sh>
+LABEL sh.demyx.url          https://demyx.sh
+LABEL sh.demyx.github       https://github.com/demyxco
+LABEL sh.demyx.registry     https://hub.docker.com/u/demyx
 
 # Set default variables
-ENV NGINX_ROOT /demyx
-ENV NGINX_CONFIG /etc/demyx
-ENV NGINX_LOG /var/log/demyx
-ENV NGINX_CACHE false
-ENV NGINX_RATE_LIMIT false
-ENV NGINX_XMLRPC false
-ENV TZ America/Los_Angeles
+ENV NGINX_ROOT          /demyx
+ENV NGINX_CONFIG        /etc/demyx
+ENV NGINX_LOG           /var/log/demyx
+ENV NGINX_CACHE         false
+ENV NGINX_RATE_LIMIT    false
+ENV NGINX_XMLRPC        false
+ENV TZ                  America/Los_Angeles
 
 # Configure Demyx
 RUN set -ex; \
