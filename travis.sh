@@ -9,13 +9,13 @@ IFS=$'\n\t'
 DEMYX_ALPINE_VERSION="$(docker exec -t demyx_nx cat /etc/os-release | grep VERSION_ID | cut -c 12- | sed 's/\r//g')"
 DEMYX_NGINX_VERSION="$(docker exec -t demyx_nx "$DEMYX_REPOSITORY" -V | grep "$DEMYX_REPOSITORY version" | cut -c 22- | sed 's/\r//g')"
 
-# Echo versions to file
-echo "DEMYX_ALPINE_VERSION=$DEMYX_ALPINE_VERSION
-DEMYX_NGINX_VERSION=$DEMYX_NGINX_VERSION" > VERSION
-
 # Replace versions
 sed -i "s|alpine-.*.-informational|alpine-${DEMYX_ALPINE_VERSION}-informational|g" README.md
 sed -i "s|$DEMYX_REPOSITORY-.*.-informational|$DEMYX_REPOSITORY-${DEMYX_NGINX_VERSION}-informational|g" README.md
+
+# Echo versions to file
+echo "DEMYX_ALPINE_VERSION=$DEMYX_ALPINE_VERSION
+DEMYX_NGINX_VERSION=$DEMYX_NGINX_VERSION" > VERSION
 
 # Push back to GitHub
 git config --global user.email "travis@travis-ci.org"
