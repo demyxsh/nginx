@@ -203,16 +203,28 @@ RUN set -ex; \
     \
     touch /etc/nginx/stdout; \
     \
-    chown demyx:demyx /etc/nginx/stdout; \
-    \
+    chown demyx:demyx /etc/nginx/stdout
+
+# Finalize
+RUN set -ex; \
+    # demyx-default
+    chmod +x "$NGINX_CONFIG"/default.sh; \
     mv "$NGINX_CONFIG"/default.sh /usr/local/bin/demyx-default; \
+    \
+    # demyx-reload
+    chmod +x "$NGINX_CONFIG"/reload.sh; \
     mv "$NGINX_CONFIG"/reload.sh /usr/local/bin/demyx-reload; \
+    \
+    # demyx-wp
+    chmod +x "$NGINX_CONFIG"/wp.sh; \
     mv "$NGINX_CONFIG"/wp.sh /usr/local/bin/demyx-wp; \
     \
-    chmod +x /usr/local/bin/demyx-default; \
-    chmod +x /usr/local/bin/demyx-reload; \
-    chmod +x /usr/local/bin/demyx-wp; \
-    chmod +x /usr/local/bin/demyx
+    # demyx-entrypoint
+    chmod +x "$NGINX_CONFIG"/entrypoint.sh; \
+    mv "$NGINX_CONFIG"/entrypoint.sh /usr/local/bin/demyx-entrypoint; \
+    \
+    # Reset permissions
+    chown -R root:root /usr/local/bin
 
 EXPOSE 80
 
