@@ -44,7 +44,7 @@ RESPONSE_CODE=$(curl -s --write-out %{response_code} --output /dev/null -H "Auth
 echo "Received response code: $RESPONSE_CODE"
 
 if [ $RESPONSE_CODE -eq 200 ]; then
-  exit 0
+    exit 0
 else
-  exit 1
+    exit 1
 fi
