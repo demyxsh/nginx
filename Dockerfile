@@ -232,4 +232,4 @@ WORKDIR "$NGINX_ROOT"
 
 USER demyx
 
-ENTRYPOINT ["dumb-init", "demyx"]
+ENTRYPOINT ["demyx-entrypoint"]
