@@ -190,10 +190,10 @@ RUN set -ex; \
     echo "demyx ALL=(ALL) NOPASSWD:/usr/sbin/nginx" > /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_BEDROCK"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_DOMAIN"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_UPLOAD_LIMIT"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_CONTAINER"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_CONTAINER_PORT"' >> /etc/sudoers.d/demyx; \
+    echo 'Defaults env_keep +="NGINX_DOMAIN"' >> /etc/sudoers.d/demyx; \
+    echo 'Defaults env_keep +="NGINX_UPLOAD_LIMIT"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_CACHE"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_RATE_LIMIT"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_XMLRPC"' >> /etc/sudoers.d/demyx; \
