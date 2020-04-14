@@ -171,8 +171,7 @@ RUN set -ex; \
 #
 
 # Copy files
-COPY --chown=demyx:demyx demyx "$NGINX_CONFIG"
-COPY demyx.sh /usr/local/bin/demyx
+COPY --chown=demyx:demyx src "$NGINX_CONFIG"
 
 # Error pages - https://github.com/alexphelps/server-error-pages
 RUN set -x; \
