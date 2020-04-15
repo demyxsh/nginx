@@ -3,6 +3,7 @@
 ## 2020-04-15
 ### Changed
 - Use demyx-entrypoint in sudoers
+- Set log ownership to demyx user
 
 ## 2020-04-14
 ### Added

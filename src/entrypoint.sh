@@ -13,4 +13,11 @@ else
     [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-default
 fi
 
-sudo nginx -c "$NGINX_CONFIG"/nginx.conf -g 'daemon off;'
+# Run in the background for now
+nginx -c "$NGINX_CONFIG"/nginx.conf
+
+# Set logs to demyx user
+chown -R demyx:demyx "$NGINX_LOG"
+
+# Restart nginx in the background
+pkill nginx && nginx -c "$NGINX_CONFIG"/nginx.conf -g 'daemon off;'
