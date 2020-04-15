@@ -187,11 +187,14 @@ RUN set -x; \
 RUN set -ex; \
     apk add --update --no-cache dumb-init sudo; \
     \
-    echo "demyx ALL=(ALL) NOPASSWD:/usr/sbin/nginx" > /etc/sudoers.d/demyx; \
+    echo "demyx ALL=(ALL) NOPASSWD:/usr/local/bin/demyx-entrypoint" > /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_BEDROCK"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_CONTAINER"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS_CONTAINER_PORT"' >> /etc/sudoers.d/demyx; \
+    echo 'Defaults env_keep +="NGINX_ROOT"' >> /etc/sudoers.d/demyx; \
+    echo 'Defaults env_keep +="NGINX_CONFIG"' >> /etc/sudoers.d/demyx; \
+    echo 'Defaults env_keep +="NGINX_LOG"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_DOMAIN"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_UPLOAD_LIMIT"' >> /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="NGINX_CACHE"' >> /etc/sudoers.d/demyx; \
@@ -232,4 +235,4 @@ WORKDIR "$NGINX_ROOT"
 
 USER demyx
 
-ENTRYPOINT ["demyx-entrypoint"]
+ENTRYPOINT ["sudo", "demyx-entrypoint"]

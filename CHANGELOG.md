@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-04-15
+### Changed
+- Use demyx-entrypoint in sudoers
+
 ## 2020-04-14
 ### Added
 - Created src for main files
