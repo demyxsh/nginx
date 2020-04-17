@@ -16,7 +16,9 @@ fi
 # Run in the background for now
 nginx -c "$NGINX_CONFIG"/nginx.conf
 
-# Set logs to demyx user
+# Set ownerships to demyx
+chown -R demyx:demyx "$NGINX_ROOT"
+chown -R demyx:demyx "$NGINX_CONFIG"
 chown -R demyx:demyx "$NGINX_LOG"
 
 # Restart nginx in the background

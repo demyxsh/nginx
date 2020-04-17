@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-04-17
+### Changed
+- chown demyx directories
+
 ## 2020-04-15
 ### Changed
 - Use demyx-entrypoint in sudoers
