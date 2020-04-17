@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2020-04-17
+### Added
+- Allow reload.sh to sudoers
 ### Changed
 - chown demyx directories
 
