@@ -50,6 +50,6 @@ demyx/nginx
 [![Stars](https://img.shields.io/github/stars/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
 [![Forks](https://img.shields.io/github/forks/demyxco/nginx?style=flat&color=blue)](https://github.com/demyxco/nginx)
 
-* Auto built weekly on Sundays (America/Los_Angeles)
+* Auto built weekly on Saturdays (America/Los_Angeles)
 * Rolling release updates
 * For support: [#demyx](https://webchat.freenode.net/?channel=#demyx)
