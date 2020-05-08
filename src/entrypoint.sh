@@ -3,9 +3,6 @@
 # https://demyx.sh
 set -euo pipefail
 
-# Set WORDPRESS variable to false by default
-WORDPRESS="${WORDPRESS:-false}"
-
 # Generate config
 if [[ "$WORDPRESS" = true ]]; then
     [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-wp

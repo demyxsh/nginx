@@ -13,6 +13,7 @@ ENV NGINX_LOG           /var/log/demyx
 ENV NGINX_CACHE         false
 ENV NGINX_RATE_LIMIT    false
 ENV NGINX_XMLRPC        false
+ENV WORDPRESS           false
 ENV TZ                  America/Los_Angeles
 
 # Configure Demyx

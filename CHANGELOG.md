@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-05-08
+### Changed
+- Move default WORDPRESS environment variable to Dockerfile
+
 ## 2020-04-17
 ### Added
 - Allow reload.sh to sudoers
