@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-05-31
+### Changed
+- Shell scripts now uses bash in the shebang
+
 ## 2020-05-08
 ### Changed
 - Move default WORDPRESS environment variable to Dockerfile

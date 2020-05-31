@@ -186,7 +186,7 @@ RUN set -x; \
 
 # Install packages and run customizations
 RUN set -ex; \
-    apk add --update --no-cache dumb-init sudo; \
+    apk add --update --no-cache bash curl sudo; \
     \
     echo "demyx ALL=(ALL) NOPASSWD:/usr/local/bin/demyx-entrypoint, /usr/local/bin/demyx-reload" > /etc/sudoers.d/demyx; \
     echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
