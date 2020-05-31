@@ -28,6 +28,7 @@ RUN set -ex; \
 RUN set -x \
 # Auto populate these variables from upstream's Dockerfile
     && NGINX_DOCKERFILE="$(wget -qO- https://raw.githubusercontent.com/nginxinc/docker-nginx/master/mainline/alpine/Dockerfile)" \
+    && NGINX_ALPINE="$(echo "$NGINX_DOCKERFILE" | grep 'FROM' | awk -F '[:]' '{print $2}')" \
     && NGINX_VERSION="$(echo "$NGINX_DOCKERFILE" | grep 'ENV NGINX_VERSION' | cut -c 19-)" \
     && NJS_VERSION="$(echo "$NGINX_DOCKERFILE" | grep 'ENV NJS_VERSION' | cut -c 19-)" \
     && PKG_RELEASE="$(echo "$NGINX_DOCKERFILE" | grep 'ENV PKG_RELEASE' | cut -c 19-)" \
@@ -58,7 +59,7 @@ RUN set -x \
                 exit 1; \
             fi \
             && apk del .cert-deps \
-            && apk add -X "https://nginx.org/packages/mainline/alpine/v$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" --no-cache $nginxPackages \
+            && apk add -X "https://nginx.org/packages/mainline/alpine/v${NGINX_ALPINE}/main" --no-cache $nginxPackages \
             ;; \
         *) \
 # we're on an architecture upstream doesn't officially build for

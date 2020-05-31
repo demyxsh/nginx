@@ -3,6 +3,7 @@
 ## 2020-05-31
 ### Changed
 - Shell scripts now uses bash in the shebang
+- Get and use alpine version from FROM
 
 ## 2020-05-08
 ### Changed
