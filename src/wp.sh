@@ -52,7 +52,7 @@ load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 
 error_log stderr notice;
 error_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.error.log;
-pid ${NGINX_CONFIG}/nginx.pid;
+pid /tmp/nginx.pid;
 
 worker_processes auto;
 worker_cpu_affinity auto;

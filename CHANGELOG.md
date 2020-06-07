@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-06-07
+### Changed
+- Move nginx.pid to /tmp
+
 ## 2020-05-31
 ### Changed
 - Shell scripts now uses bash in the shebang
