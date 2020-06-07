@@ -228,6 +228,10 @@ RUN set -ex; \
     chmod +x "$NGINX_CONFIG"/entrypoint.sh; \
     mv "$NGINX_CONFIG"/entrypoint.sh /usr/local/bin/demyx-entrypoint; \
     \
+    # Create copy of /etc/demyx in an archive and empty out config dir
+    tar -czf /etc/demyx.tgz -C "$NGINX_CONFIG" .; \
+    rm -rf "$NGINX_CONFIG"/*; \
+    \
     # Reset permissions
     chown -R root:root /usr/local/bin
 

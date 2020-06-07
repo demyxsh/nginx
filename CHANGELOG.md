@@ -3,6 +3,7 @@
 ## 2020-06-07
 ### Changed
 - Move nginx.pid to /tmp
+- Generate demyx config if it doesn't exist
 
 ## 2020-05-31
 ### Changed
