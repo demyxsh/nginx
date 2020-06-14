@@ -41,7 +41,7 @@ fi
 NGINX_BASIC_AUTH="${NGINX_BASIC_AUTH:-false}"
 if [[ "${NGINX_BASIC_AUTH}" = true && "$WORDPRESS" = true || "${NGINX_BASIC_AUTH}" = true && "$WORDPRESS" = true ]]; then
     echo "$NGINX_BASIC_AUTH_HTPASSWD" > "$NGINX_CONFIG"/.htpasswd
-    sed -i "s|#auth_basic|auth_basic|g" "$NGINX_CONFIG"/common/wpcommon.conf
+    sed -i "s|#include ${NGINX_CONFIG}/nginx/auth.conf;|include ${NGINX_CONFIG}/nginx/auth.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
 fi
 
 echo "# Demyx
@@ -151,6 +151,7 @@ http {
     location / {
       try_files \$uri \$uri/ /index.php?\$args;
       ${NGINX_BEDROCK:-}
+      #include ${NGINX_CONFIG}/nginx/whitelist.conf;
     }
 
     location ~ [^/]\.php(/|\$) {
@@ -163,8 +164,26 @@ http {
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
       include /etc/nginx/fastcgi_params;
       ${NGINX_CACHE_LOCATION:-}
+      #include ${NGINX_CONFIG}/nginx/whitelist.conf;
     }
 
     include ${NGINX_CONFIG}/common/*.conf;
   }
 }" > "$NGINX_CONFIG"/nginx.conf
+
+# NGINX IP whitelist
+if [[ "$NGINX_WHITELIST" = true && "$WORDPRESS" = true ]]; then
+    NGINX_WHITELIST_IPS="$(echo "$NGINX_WHITELIST_IP" | sed "s|,| |g")"
+    for i in $NGINX_WHITELIST_IPS
+    do
+        echo "allow $i;" >> "$NGINX_CONFIG"/nginx/whitelist.conf
+    done
+    echo "deny all;" >> "$NGINX_CONFIG"/nginx/whitelist.conf
+    
+    if [[ "$NGINX_WHITELIST_TYPE" = login ]]; then
+        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
+    elif [[ "$NGINX_WHITELIST_TYPE" = all ]]; then
+        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/nginx.conf
+        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
+    fi
+fi
