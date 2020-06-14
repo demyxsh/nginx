@@ -16,7 +16,7 @@ PORT | 80
 USER | demyx
 WORKDIR | /demyx
 CONFIG | /etc/demyx
-ENTRYPOINT | ["sudo", "demyx-entrypoint"]
+ENTRYPOINT | ["sudo", "-E", "demyx-entrypoint"]
 TIMEZONE | America/Los_Angeles
 
 ## Usage

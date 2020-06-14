@@ -175,9 +175,6 @@ RUN set -ex; \
 # END BUILD CUSTOM MODULES
 #
 
-# Copy files
-COPY --chown=demyx:demyx src "$NGINX_CONFIG"
-
 # Error pages - https://github.com/alexphelps/server-error-pages
 RUN set -x; \
     apk add --no-cache --virtual .error-deps git; \
@@ -192,26 +189,14 @@ RUN set -x; \
 RUN set -ex; \
     apk add --update --no-cache bash curl sudo; \
     \
-    echo "demyx ALL=(ALL) NOPASSWD:/usr/local/bin/demyx-entrypoint, /usr/local/bin/demyx-reload" > /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="WORDPRESS"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="WORDPRESS_BEDROCK"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="WORDPRESS_CONTAINER"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="WORDPRESS_CONTAINER_PORT"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_ROOT"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_CONFIG"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_LOG"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_DOMAIN"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_UPLOAD_LIMIT"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_CACHE"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_RATE_LIMIT"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_XMLRPC"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_BASIC_AUTH"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="NGINX_BASIC_AUTH_HTPASSWD"' >> /etc/sudoers.d/demyx; \
-    echo 'Defaults env_keep +="TZ"' >> /etc/sudoers.d/demyx; \
+    echo "demyx ALL=(ALL) NOPASSWD:SETENV:/usr/local/bin/demyx-entrypoint, /usr/local/bin/demyx-reload" > /etc/sudoers.d/demyx; \
     \
     touch /etc/nginx/stdout; \
     \
     chown demyx:demyx /etc/nginx/stdout
+
+# Copy files
+COPY --chown=demyx:demyx src "$NGINX_CONFIG"
 
 # Finalize
 RUN set -ex; \
@@ -244,4 +229,4 @@ WORKDIR "$NGINX_ROOT"
 
 USER demyx
 
-ENTRYPOINT ["sudo", "demyx-entrypoint"]
+ENTRYPOINT ["sudo", "-E", "demyx-entrypoint"]
