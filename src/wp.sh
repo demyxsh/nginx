@@ -172,7 +172,7 @@ http {
 }" > "$NGINX_CONFIG"/nginx.conf
 
 # NGINX IP whitelist
-if [[ "$NGINX_WHITELIST" = true && "$WORDPRESS" = true ]]; then
+if [[ "$NGINX_WHITELIST" != false && "$WORDPRESS" = true ]]; then
     NGINX_WHITELIST_IPS="$(echo "$NGINX_WHITELIST_IP" | sed "s|,| |g")"
     for i in $NGINX_WHITELIST_IPS
     do
@@ -180,9 +180,9 @@ if [[ "$NGINX_WHITELIST" = true && "$WORDPRESS" = true ]]; then
     done
     echo "deny all;" >> "$NGINX_CONFIG"/nginx/whitelist.conf
     
-    if [[ "$NGINX_WHITELIST_TYPE" = login ]]; then
+    if [[ "$NGINX_WHITELIST" = login ]]; then
         sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
-    elif [[ "$NGINX_WHITELIST_TYPE" = all ]]; then
+    elif [[ "$NGINX_WHITELIST" = all ]]; then
         sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/nginx.conf
         sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
     fi

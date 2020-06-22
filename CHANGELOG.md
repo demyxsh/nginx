@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-06-21
+### Changed
+- Update variables for IP whitelisting
+
 ## 2020-06-13
 ### Added
 - New environment variables NGINX_WHITELIST, NGINX_WHITELIST_IP, and NGINX_WHITELIST_TYPE

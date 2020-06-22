@@ -22,6 +22,8 @@ TIMEZONE | America/Los_Angeles
 ## Usage
 * To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
 * NGINX_BASIC_AUTH must have double dollar signs ($$)
+* NGINX_WHITELIST accepted values; all, login
+* NGINX_WHITELIST_IP must have a valid IP address
 
 ```
 docker run -dit --rm \
@@ -41,7 +43,6 @@ docker run -dit --rm \
 -e NGINX_BASIC_AUTH_HTPASSWD= \     # WordPress only setting
 -e NGINX_WHITELIST=false \          # WordPress only setting
 -e NGINX_WHITELIST_IP=false \       # WordPress only setting
--e NGINX_WHITELIST_TYPE=false \     # WordPress only setting
 -e TZ=America/Los_Angeles \
 demyx/nginx
 ```
