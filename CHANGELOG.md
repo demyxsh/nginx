@@ -3,6 +3,7 @@
 ## 2020-06-21
 ### Changed
 - Update variables for IP whitelisting
+- Enable gzip for wp-content assets
 
 ## 2020-06-13
 ### Added
