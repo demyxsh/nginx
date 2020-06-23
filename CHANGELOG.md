@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-06-23
+### Changed
+- Update author ID enumeration security rule which was preventing XML exports
+
 ## 2020-06-21
 ### Changed
 - Update variables for IP whitelisting
