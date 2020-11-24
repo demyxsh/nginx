@@ -3,23 +3,26 @@
 # https://demyx.sh
 set -euo pipefail
 
-NGINX_DOMAIN="${NGINX_DOMAIN:-domain.tld}"
-NGINX_RATE_LIMIT="${NGINX_RATE_LIMIT:-false}"
-NGINX_RATE_LIMIT_CONNECTION="#limit_conn addr 5;"
-NGINX_RATE_LIMIT_LOCATION="#limit_req zone=one burst=5 nodelay;"
+# Support old variables
+[[ -n "${NGINX_DOMAIN:-}" ]] && DEMYX_DOMAIN="$NGINX_DOMAIN"
+[[ -n "${NGINX_RATE_LIMIT:-}" ]] && DEMYX_RATE_LIMIT="$NGINX_RATE_LIMIT"
+
+# Default variables
+DEMYX_RATE_LIMIT_CONNECTION="#limit_conn addr 5;"
+DEMYX_RATE_LIMIT_LOCATION="#limit_req zone=one burst=5 nodelay;"
 
 # Cloudflare check
-NGINX_CLOUDFLARE_CHECK="$(curl -m 1 -svo /dev/null "${NGINX_DOMAIN}" 2>&1 | grep "Server: cloudflare" || true)"
-if [[ -n "$NGINX_CLOUDFLARE_CHECK" ]]; then
-    NGINX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
+DEMYX_CLOUDFLARE_CHECK="$(curl -m 1 -svo /dev/null "${DEMYX_DOMAIN}" 2>&1 | grep "Server: cloudflare" || true)"
+if [[ -n "$DEMYX_CLOUDFLARE_CHECK" ]]; then
+    DEMYX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
 else
-    NGINX_REAL_IP="real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
+    DEMYX_REAL_IP="real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
 fi
 
 # NGINX rate limiting
-if [[ "$NGINX_RATE_LIMIT" = on || "$NGINX_RATE_LIMIT" = true ]]; then
-    NGINX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
-    NGINX_RATE_LIMIT_LOCATION="limit_req zone=one burst=5 nodelay;"
+if [[ "$DEMYX_RATE_LIMIT" = on || "$DEMYX_RATE_LIMIT" = true ]]; then
+    DEMYX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
+    DEMYX_RATE_LIMIT_LOCATION="limit_req zone=one burst=5 nodelay;"
 fi
 
 echo "load_module /etc/nginx/modules/ngx_http_cache_purge_module.so;
@@ -100,8 +103,8 @@ http {
       location / {
         root /usr/share/nginx/html;
         index index.html index.htm;
-        $NGINX_RATE_LIMIT_CONNECTION
-        $NGINX_RATE_LIMIT_LOCATION
+        $DEMYX_RATE_LIMIT_CONNECTION
+        $DEMYX_RATE_LIMIT_LOCATION
       }
 
       error_page   500 502 503 504  /50x.html;
@@ -109,8 +112,8 @@ http {
         root /usr/share/nginx/html;
       }
 
-      $NGINX_REAL_IP
+      $DEMYX_REAL_IP
 
       disable_symlinks off;
     }
-}" > "$NGINX_CONFIG"/nginx.conf
+}" > "$DEMYX_CONFIG"/nginx.conf

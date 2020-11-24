@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 2020-11-23
+### Changed
+- Alphabetized
+- Misc updates
+- Rename variables and support old ones
+- ShellCheck approved
+- Update Dockerfile RUN commands
+- Use -E flag for sudo to keep environment variables
+- Use full paths to binaries/scripts
+
 ## 2020-06-23
 ### Changed
 - Update author ID enumeration security rule which was preventing XML exports

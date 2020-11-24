@@ -3,23 +3,26 @@
 # https://demyx.sh
 set -euo pipefail
 
+# Support for old variables
+[[ -n "${WORDPRESS:-}" ]] && DEMYX_WORDPRESS="$WORDPRESS"
+
 # Generate demyx config
-[[ ! -d "$NGINX_CONFIG"/nginx ]] && tar -xzf /etc/demyx.tgz -C "$NGINX_CONFIG"
+[[ ! -d "$DEMYX_CONFIG"/nginx ]] && /usr/bin/tar -xzf /etc/demyx.tgz -C "$DEMYX_CONFIG"
 
 # Generate wp config
-if [[ "$WORDPRESS" = true ]]; then
-    [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-wp
+if [[ "$DEMYX_WORDPRESS" = true ]]; then
+    [[ ! -f "$DEMYX_CONFIG"/nginx.conf ]] && /usr/local/bin/demyx-wp
 else
-    [[ ! -f "$NGINX_CONFIG"/nginx.conf ]] && demyx-default
+    [[ ! -f "$DEMYX_CONFIG"/nginx.conf ]] && /usr/local/bin/demyx-default
 fi
 
 # Run in the background for now
-nginx -c "$NGINX_CONFIG"/nginx.conf
+/usr/sbin/nginx -c "$DEMYX_CONFIG"/nginx.conf
 
 # Set ownerships to demyx
-chown -R demyx:demyx "$NGINX_ROOT"
-chown -R demyx:demyx "$NGINX_CONFIG"
-chown -R demyx:demyx "$NGINX_LOG"
+/bin/chown -R demyx:demyx "$DEMYX"
+/bin/chown -R demyx:demyx "$DEMYX_CONFIG"
+/bin/chown -R demyx:demyx "$DEMYX_LOG"
 
 # Restart nginx in the background
-pkill nginx && nginx -c "$NGINX_CONFIG"/nginx.conf -g 'daemon off;'
+/usr/bin/pkill nginx && /usr/sbin/nginx -c "$DEMYX_CONFIG"/nginx.conf -g 'daemon off;'

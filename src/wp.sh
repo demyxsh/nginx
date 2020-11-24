@@ -3,55 +3,67 @@
 # https://demyx.sh
 set -euo pipefail
 
+# Support old variables
+[[ -n "${NGINX_BASIC_AUTH:-}" ]] && DEMYX_BASIC_AUTH="$NGINX_BASIC_AUTH"
+[[ -n "${NGINX_CACHE:-}" ]] && DEMYX_CACHE="$NGINX_CACHE"
+[[ -n "${NGINX_DOMAIN:-}" ]] && DEMYX_DOMAIN="$NGINX_DOMAIN"
+[[ -n "${NGINX_RATE_LIMIT:-}" ]] && DEMYX_RATE_LIMIT="$NGINX_RATE_LIMIT"
+[[ -n "${NGINX_UPLOAD_LIMIT:-}" ]] && DEMYX_UPLOAD_LIMIT="$NGINX_UPLOAD_LIMIT"
+[[ -n "${NGINX_XMLRPC:-}" ]] && DEMYX_XMLRPC="$NGINX_XMLRPC"
+[[ -n "${WORDPRESS:-}" ]] && DEMYX_WORDPRESS="$WORDPRESS"
+[[ -n "${WORDPRESS_BEDROCK:-}" ]] && DEMYX_BEDROCK="$WORDPRESS_BEDROCK"
+[[ -n "${WORDPRESS_CONTAINER:-}" ]] && DEMYX_WORDPRESS_CONTAINER="$WORDPRESS_CONTAINER"
+[[ -n "${WORDPRESS_CONTAINER_PORT:-}" ]] && DEMYX_WORDPRESS_CONTAINER_PORT="$WORDPRESS_CONTAINER_PORT"
+
 # Bedrock config
-if [[ "${WORDPRESS_BEDROCK:-false}" = true && "$WORDPRESS" = true ]]; then
-    NGINX_ROOT="$NGINX_ROOT"/web
-    NGINX_BEDROCK="include "$NGINX_CONFIG"/nginx/bedrock.conf;"
-    sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$NGINX_CONFIG"/common/wpcommon.conf
+if [[ "${DEMYX_BEDROCK:-false}" = true && "$DEMYX_WORDPRESS" = true ]]; then
+    DEMYX="$DEMYX"/web
+    DEMYX_BEDROCK_INCLUDE="include ${DEMYX_CONFIG}/nginx/bedrock.conf;"
+    /bin/sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$DEMYX_CONFIG"/common/wpcommon.conf
 fi
 
 # Cloudflare check
-NGINX_CLOUDFLARE_CHECK="$(curl -m 1 -svo /dev/null "$NGINX_DOMAIN" 2>&1 | grep "Server: cloudflare" || true)"
-if [[ -n "$NGINX_CLOUDFLARE_CHECK" ]]; then
-    NGINX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
+DEMYX_CLOUDFLARE_CHECK="$(/usr/bin/curl -m 1 -svo /dev/null "$DEMYX_DOMAIN" 2>&1 | /bin/grep "Server: cloudflare" || true)"
+if [[ -n "$DEMYX_CLOUDFLARE_CHECK" ]]; then
+    DEMYX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
 else
-    NGINX_REAL_IP="real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
+    DEMYX_REAL_IP="real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
 fi
 
 # NGINX FastCGI cache
-if [[ "$NGINX_CACHE" = on && "$WORDPRESS" = true || "$NGINX_CACHE" = true && "$WORDPRESS" = true ]]; then
-    NGINX_CACHE_HTTP="include "$NGINX_CONFIG"/cache/http.conf;"
-    NGINX_CACHE_SERVER="include "$NGINX_CONFIG"/cache/server.conf;"
-    NGINX_CACHE_LOCATION="include "$NGINX_CONFIG"/cache/location.conf;"
+if [[ "$DEMYX_CACHE" = on && "$DEMYX_WORDPRESS" = true || "$DEMYX_CACHE" = true && "$DEMYX_WORDPRESS" = true ]]; then
+    DEMYX_CACHE_HTTP="include ${DEMYX_CONFIG}/cache/http.conf;"
+    DEMYX_CACHE_SERVER="include ${DEMYX_CONFIG}/cache/server.conf;"
+    DEMYX_CACHE_LOCATION="include ${DEMYX_CONFIG}/cache/location.conf;"
 fi
 
 # NGINX rate limiting
-if [[ "$NGINX_RATE_LIMIT" = on || "$NGINX_RATE_LIMIT" = true ]]; then
-    NGINX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
-    NGINX_RATE_LIMIT_LOCATION="limit_req zone=ip burst=5 nodelay;
+if [[ "$DEMYX_RATE_LIMIT" = on || "$DEMYX_RATE_LIMIT" = true ]]; then
+    DEMYX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
+    DEMYX_RATE_LIMIT_LOCATION="limit_req zone=ip burst=5 nodelay;
     limit_req zone=server burst=10;"
 fi
 
 # NGINX xmlrpc.php
-if [[ "$NGINX_XMLRPC" = on && "$WORDPRESS" = true || "$NGINX_XMLRPC" = true && "$WORDPRESS" = true ]]; then
-    mv "$NGINX_CONFIG"/common/xmlrpc.conf "$NGINX_CONFIG"/common/xmlrpc.on
+if [[ "$DEMYX_XMLRPC" = on && "$DEMYX_WORDPRESS" = true || "$DEMYX_XMLRPC" = true && "$DEMYX_WORDPRESS" = true ]]; then
+    /bin/mv "$DEMYX_CONFIG"/common/xmlrpc.conf "$DEMYX_CONFIG"/common/xmlrpc.on
 fi
 
 # NGINX Basic auth
-NGINX_BASIC_AUTH="${NGINX_BASIC_AUTH:-false}"
-if [[ "${NGINX_BASIC_AUTH}" = true && "$WORDPRESS" = true || "${NGINX_BASIC_AUTH}" = true && "$WORDPRESS" = true ]]; then
-    echo "$NGINX_BASIC_AUTH_HTPASSWD" > "$NGINX_CONFIG"/.htpasswd
-    sed -i "s|#include ${NGINX_CONFIG}/nginx/auth.conf;|include ${NGINX_CONFIG}/nginx/auth.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
+DEMYX_BASIC_AUTH="${DEMYX_BASIC_AUTH:-false}"
+if [[ "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true || "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true ]]; then
+    /bin/echo "$DEMYX_BASIC_AUTH_HTPASSWD" > "$DEMYX_CONFIG"/.htpasswd
+    /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/auth.conf;|include ${DEMYX_CONFIG}/nginx/auth.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
 fi
 
-echo "# Demyx
+/bin/echo "# Demyx
 # https://demyx.sh
 #
 load_module /etc/nginx/modules/ngx_http_cache_purge_module.so;
 load_module /etc/nginx/modules/ngx_http_headers_more_filter_module.so;
 
 error_log stderr notice;
-error_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.error.log;
+error_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.error.log;
 pid /tmp/nginx.pid;
 
 worker_processes auto;
@@ -72,7 +84,7 @@ http {
     '\"\$http_referer\" \"\$http_user_agent\" \$server_protocol';
 
   access_log stdout;
-  access_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.access.log main;
+  access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
 
   sendfile on;
   sendfile_max_chunk 512k;
@@ -98,7 +110,7 @@ http {
   limit_req_zone \$server_name zone=server:10m rate=10r/s;
   limit_conn_zone \$binary_remote_addr zone=addr:10m;
 
-  client_max_body_size ${NGINX_UPLOAD_LIMIT:-128M};
+  client_max_body_size ${DEMYX_UPLOAD_LIMIT};
   client_body_timeout 10;
   client_body_temp_path /tmp/nginx-client 1 2;
   fastcgi_temp_path /tmp/nginx-fastcgi 1 2;
@@ -117,13 +129,13 @@ http {
   more_set_headers \"Referrer-Policy : strict-origin-when-cross-origin\";
   more_set_headers \"X-Download-Options : noopen\";
 
-  include ${NGINX_CONFIG}/nginx/mime.types;
+  include ${DEMYX_CONFIG}/nginx/mime.types;
   default_type application/octet-stream;
 
   gzip off;
 
   upstream php {
-    server ${WORDPRESS_CONTAINER:-wp}:${WORDPRESS_CONTAINER_PORT:-9000};
+    server ${DEMYX_WORDPRESS_CONTAINER}:${DEMYX_WORDPRESS_CONTAINER_PORT};
   }
 
   map \$http_accept \$webp_suffix {
@@ -131,27 +143,27 @@ http {
     \"~*webp\" \".webp\";
   }
 
-  ${NGINX_CACHE_HTTP:-}
+  ${DEMYX_CACHE_HTTP:-}
 
   server {
     listen 80;
-    root ${NGINX_ROOT};
+    root ${DEMYX};
     index index.php index.html index.htm;
     access_log stdout;
-    access_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.access.log main;
+    access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
     error_log stderr notice;
-    error_log ${NGINX_LOG}/${NGINX_DOMAIN:-demyx}.error.log;
+    error_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.error.log;
     disable_symlinks off;
 
-    ${NGINX_REAL_IP:-}
-    ${NGINX_CACHE_SERVER:-}
-    ${NGINX_RATE_LIMIT_CONNECTION:-}
-    ${NGINX_RATE_LIMIT_LOCATION:-}
+    ${DEMYX_REAL_IP:-}
+    ${DEMYX_CACHE_SERVER:-}
+    ${DEMYX_RATE_LIMIT_CONNECTION:-}
+    ${DEMYX_RATE_LIMIT_LOCATION:-}
 
     location / {
       try_files \$uri \$uri/ /index.php?\$args;
-      ${NGINX_BEDROCK:-}
-      #include ${NGINX_CONFIG}/nginx/whitelist.conf;
+      ${DEMYX_BEDROCK_INCLUDE:-}
+      #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
     }
 
     location ~ [^/]\.php(/|\$) {
@@ -163,27 +175,27 @@ http {
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
       include /etc/nginx/fastcgi_params;
-      ${NGINX_CACHE_LOCATION:-}
-      #include ${NGINX_CONFIG}/nginx/whitelist.conf;
+      ${DEMYX_CACHE_LOCATION:-}
+      #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
     }
 
-    include ${NGINX_CONFIG}/common/*.conf;
+    include ${DEMYX_CONFIG}/common/*.conf;
   }
-}" > "$NGINX_CONFIG"/nginx.conf
+}" > "$DEMYX_CONFIG"/nginx.conf
 
 # NGINX IP whitelist
-if [[ "$NGINX_WHITELIST" != false && "$WORDPRESS" = true ]]; then
-    NGINX_WHITELIST_IPS="$(echo "$NGINX_WHITELIST_IP" | sed "s|,| |g")"
-    for i in $NGINX_WHITELIST_IPS
+if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
+    DEMYX_WHITELIST_IPS="$(/bin/echo "$DEMYX_WHITELIST_IP" | /bin/sed "s|,| |g")"
+    for i in $DEMYX_WHITELIST_IPS
     do
-        echo "allow $i;" >> "$NGINX_CONFIG"/nginx/whitelist.conf
+        /bin/echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     done
-    echo "deny all;" >> "$NGINX_CONFIG"/nginx/whitelist.conf
+    /bin/echo "deny all;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     
-    if [[ "$NGINX_WHITELIST" = login ]]; then
-        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
-    elif [[ "$NGINX_WHITELIST" = all ]]; then
-        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/nginx.conf
-        sed -i "s|#include ${NGINX_CONFIG}/nginx/whitelist.conf;|include ${NGINX_CONFIG}/nginx/whitelist.conf;|g" "$NGINX_CONFIG"/common/wpcommon.conf
+    if [[ "$DEMYX_WHITELIST" = login ]]; then
+        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+    elif [[ "$DEMYX_WHITELIST" = all ]]; then
+        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/nginx.conf
+        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
     fi
 fi

@@ -3,4 +3,4 @@
 # https://demyx.sh
 set -euo pipefail
 
-nginx -c "$NGINX_CONFIG"/nginx.conf -s reload
+/usr/sbin/nginx -c "$DEMYX_CONFIG"/nginx.conf -s reload

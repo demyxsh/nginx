@@ -16,34 +16,32 @@ PORT | 80
 USER | demyx
 WORKDIR | /demyx
 CONFIG | /etc/demyx
-ENTRYPOINT | ["sudo", "-E", "demyx-entrypoint"]
+ENTRYPOINT | /usr/bin/sudo -E demyx-entrypoint
 TIMEZONE | America/Los_Angeles
 
 ## Usage
 * To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
-* NGINX_BASIC_AUTH must have double dollar signs ($$)
-* NGINX_WHITELIST accepted values; all, login
-* NGINX_WHITELIST_IP must have a valid IP address
+* DEMYX_BASIC_AUTH_HTPASSWD must have double dollar signs ($$)
+* DEMYX_WHITELIST accepted values; all, login
+* DEMYX_WHITELIST_IP must have a valid IP address
 
 ```
 docker run -dit --rm \
---name nginx \
--e NGINX_ROOT=/demyx \
--e NGINX_CONFIG=/etc/demyx \
--e NGINX_LOG=/var/log/demyx \
--e WORDPRESS="true" \               # Only set to true if using for WordPress
--e WORDPRESS_CONTAINER=wp \         # PHP/WordPress container name
--e WORDPRESS_CONTAINER_PORT=9000 \  # PHP/WordPress container port
--e NGINX_DOMAIN=domain.tld \        # WordPress only setting
--e NGINX_UPLOAD_LIMIT=128M \        # WordPress only setting
--e NGINX_CACHE=false \              # WordPress only setting
--e NGINX_RATE_LIMIT=false \         # WordPress only setting
--e NGINX_XMLRPC=false \             # WordPress only setting
--e NGINX_BASIC_AUTH=false \         # WordPress only setting
--e NGINX_BASIC_AUTH_HTPASSWD= \     # WordPress only setting
--e NGINX_WHITELIST=false \          # WordPress only setting
--e NGINX_WHITELIST_IP=false \       # WordPress only setting
--e TZ=America/Los_Angeles \
+--name=nginx \
+-e DEMYX_BASIC_AUTH=false \                 # WordPress only setting
+-e DEMYX_BASIC_AUTH_HTPASSWD=false \        # WordPress only setting
+-e DEMYX_BEDROCK=false \                    # Bedrock only setting
+-e DEMYX_CACHE=false \                      # WordPress only setting
+-e DEMYX_DOMAIN=localhost \                 # WordPress only setting
+-e DEMYX_RATE_LIMIT=false \                 # WordPress only setting
+-e DEMYX_UPLOAD_LIMIT=128M \                # WordPress only setting
+-e DEMYX_WHITELIST=false \                  # WordPress only setting
+-e DEMYX_WHITELIST_IP=false \               # WordPress only setting
+-e DEMYX_WHITELIST_TYPE=false \             # WordPress only setting
+-e DEMYX_WORDPRESS=false \                  # Only set to true if using for WordPress
+-e DEMYX_WORDPRESS_CONTAINER=wp \           # PHP/WordPress container name
+-e DEMYX_WORDPRESS_CONTAINER_PORT=9000 \    # PHP/WordPress container port
+-e DEMYX_XMLRPC=false \
 demyx/nginx
 ```
 
