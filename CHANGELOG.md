@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2020-12-04
+### Added
+- fastcgi_intercept_errors rule
+### Changed
+- Update RUN commands for configuring demyx
+- Use WordPress' 404 page instead of nginx
+
 ## 2020-11-23
 ### Changed
 - Alphabetized
