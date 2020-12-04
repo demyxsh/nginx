@@ -174,6 +174,7 @@ http {
       fastcgi_pass php;
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+      fastcgi_intercept_errors on;
       include /etc/nginx/fastcgi_params;
       ${DEMYX_CACHE_LOCATION:-}
       #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
