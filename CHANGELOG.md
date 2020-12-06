@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-12-05
+### Changed
+- Update path to tar
+
 ## 2020-12-04
 ### Added
 - fastcgi_intercept_errors rule

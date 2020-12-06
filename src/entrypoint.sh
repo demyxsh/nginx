@@ -7,7 +7,7 @@ set -euo pipefail
 [[ -n "${WORDPRESS:-}" ]] && DEMYX_WORDPRESS="$WORDPRESS"
 
 # Generate demyx config
-[[ ! -d "$DEMYX_CONFIG"/nginx ]] && /usr/bin/tar -xzf /etc/demyx.tgz -C "$DEMYX_CONFIG"
+[[ ! -d "$DEMYX_CONFIG"/nginx ]] && /bin/tar -xzf /etc/demyx.tgz -C "$DEMYX_CONFIG"
 
 # Generate wp config
 if [[ "$DEMYX_WORDPRESS" = true ]]; then
