@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2020-12-21
+### Changed
+- Disable custom 500 error page
+
 ## 2020-12-05
 ### Changed
 - Update path to tar
