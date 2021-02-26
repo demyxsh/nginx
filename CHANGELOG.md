@@ -1,5 +1,48 @@
 # CHANGELOG
 
+## 2021-02-25
+- Added
+    - `bin/demyx-default`
+    - `bin/demyx-entrypoint`
+    - `bin/demyx-reload`
+    - `bin/demyx-wp`
+    - `config/cache/http.conf`
+    - `config/cache/location.conf`
+    - `config/cache/server.conf`
+    - `common/locations.conf`
+    - `common/wpcommon.conf`
+    - `common/xmlrpc.conf`
+    - `nginx/auth.conf`
+    - `nginx/bedrock.conf`
+    - `nginx/mime.types`
+- Changed
+    - Renamed src to bin.
+    - Renamed default.sh to demyx-default.
+    - Renamed entrypoint.sh to demyx-entrypoint.
+    - Renamed reload.sh to demyx-reload.
+    - Renamed wp.sh to demyx-wp.
+    - Move src/cache to config.
+    - Move src/common to config.
+    - Move src/nginx to config.
+    - `bin/demyx-default`
+        - Remove full paths to binaries.
+    - `bin/demyx-entrypoint`
+        - Remove full paths to binaries.
+    - `bin/demyx-reload`
+        - Remove full paths to binaries.
+    - `bin/demyx-wp`
+        - Remove full paths to binaries.
+        - Remove duplicate access/error log rules.
+        - Remove fastcgi_intercept_errors.
+    - `Dockerfile`
+        - Remove full paths to binaries.
+        - Rearrange RUN commands.
+        - Update bash PS1.
+        - Update COPY directory.
+        - Remove custom error pages.
+- Removed
+    - `common/error.conf`
+
 ## 2020-12-21
 ### Changed
 - Disable custom 500 error page
