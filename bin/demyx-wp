@@ -19,11 +19,11 @@ set -euo pipefail
 if [[ "${DEMYX_BEDROCK:-false}" = true && "$DEMYX_WORDPRESS" = true ]]; then
     DEMYX="$DEMYX"/web
     DEMYX_BEDROCK_INCLUDE="include ${DEMYX_CONFIG}/nginx/bedrock.conf;"
-    /bin/sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+    sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$DEMYX_CONFIG"/common/wpcommon.conf
 fi
 
 # Cloudflare check
-DEMYX_CLOUDFLARE_CHECK="$(/usr/bin/curl -m 1 -svo /dev/null "$DEMYX_DOMAIN" 2>&1 | /bin/grep "Server: cloudflare" || true)"
+DEMYX_CLOUDFLARE_CHECK="$(curl -m 1 -svo /dev/null "$DEMYX_DOMAIN" 2>&1 | grep "Server: cloudflare" || true)"
 if [[ -n "$DEMYX_CLOUDFLARE_CHECK" ]]; then
     DEMYX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
 else
@@ -46,17 +46,17 @@ fi
 
 # NGINX xmlrpc.php
 if [[ "$DEMYX_XMLRPC" = on && "$DEMYX_WORDPRESS" = true || "$DEMYX_XMLRPC" = true && "$DEMYX_WORDPRESS" = true ]]; then
-    /bin/mv "$DEMYX_CONFIG"/common/xmlrpc.conf "$DEMYX_CONFIG"/common/xmlrpc.on
+    mv "$DEMYX_CONFIG"/common/xmlrpc.conf "$DEMYX_CONFIG"/common/xmlrpc.on
 fi
 
 # NGINX Basic auth
 DEMYX_BASIC_AUTH="${DEMYX_BASIC_AUTH:-false}"
 if [[ "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true || "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true ]]; then
-    /bin/echo "$DEMYX_BASIC_AUTH_HTPASSWD" > "$DEMYX_CONFIG"/.htpasswd
-    /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/auth.conf;|include ${DEMYX_CONFIG}/nginx/auth.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+    echo "$DEMYX_BASIC_AUTH_HTPASSWD" > "$DEMYX_CONFIG"/.htpasswd
+    sed -i "s|#include ${DEMYX_CONFIG}/nginx/auth.conf;|include ${DEMYX_CONFIG}/nginx/auth.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
 fi
 
-/bin/echo "# Demyx
+echo "# Demyx
 # https://demyx.sh
 #
 load_module /etc/nginx/modules/ngx_http_cache_purge_module.so;
@@ -82,9 +82,6 @@ http {
   log_format main '\$http_x_forwarded_for \$upstream_response_time \$upstream_cache_status [\$time_local] '
     '\$http_host \"\$request\" \$status \$body_bytes_sent '
     '\"\$http_referer\" \"\$http_user_agent\" \$server_protocol';
-
-  access_log stdout;
-  access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
 
   sendfile on;
   sendfile_max_chunk 512k;
@@ -149,11 +146,10 @@ http {
     listen 80;
     root ${DEMYX};
     index index.php index.html index.htm;
-    access_log stdout;
+  
+    disable_symlinks off;  
+
     access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
-    error_log stderr notice;
-    error_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.error.log;
-    disable_symlinks off;
 
     ${DEMYX_REAL_IP:-}
     ${DEMYX_CACHE_SERVER:-}
@@ -174,7 +170,6 @@ http {
       fastcgi_pass php;
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-      fastcgi_intercept_errors on;
       include /etc/nginx/fastcgi_params;
       ${DEMYX_CACHE_LOCATION:-}
       #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
@@ -186,17 +181,17 @@ http {
 
 # NGINX IP whitelist
 if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
-    DEMYX_WHITELIST_IPS="$(/bin/echo "$DEMYX_WHITELIST_IP" | /bin/sed "s|,| |g")"
+    DEMYX_WHITELIST_IPS="$(echo "$DEMYX_WHITELIST_IP" | sed "s|,| |g")"
     for i in $DEMYX_WHITELIST_IPS
     do
-        /bin/echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
+        echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     done
-    /bin/echo "deny all;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
+    echo "deny all;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     
     if [[ "$DEMYX_WHITELIST" = login ]]; then
-        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
     elif [[ "$DEMYX_WHITELIST" = all ]]; then
-        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/nginx.conf
-        /bin/sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/nginx.conf
+        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
     fi
 fi
