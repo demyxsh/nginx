@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# 2021-06-16
+- Add missing environment variables [f0798bf](https://github.com/demyxco/nginx/commit/f0798bf02b9d3c8d83cb01d6ecc326f244c4e395)
+- Update ngx_cache_purge repo [8da2097](https://github.com/demyxco/nginx/commit/8da209764dd8fbb7f72393e8fe52bbf2b8ab8e06)
+- Remove unused ENV [e10a886](https://github.com/demyxco/nginx/commit/e10a88645d31bf35ea887297aa184e2c9bbdda75)
+
 ## 2021-02-25
 - Added
     - `bin/demyx-default`
