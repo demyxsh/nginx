@@ -25,10 +25,6 @@ ENV DEMYX_WORDPRESS_CONTAINER           wp
 ENV DEMYX_WORDPRESS_CONTAINER_PORT      9000
 ENV DEMYX_XMLRPC                        false
 ENV TZ                                  America/Los_Angeles
-# Support for old variables
-ENV NGINX_ROOT                          "$DEMYX"
-ENV NGINX_CONFIG                        "$DEMYX_CONFIG"
-ENV NGINX_LOG                           "$DEMYX_LOG"
 
 RUN set -x \
 # Auto populate these variables from upstream's Dockerfile
