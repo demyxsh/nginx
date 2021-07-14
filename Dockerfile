@@ -26,7 +26,7 @@ ENV DEMYX_WORDPRESS_CONTAINER_PORT      9000
 ENV DEMYX_XMLRPC                        false
 ENV TZ                                  America/Los_Angeles
 
-#    
+#
 # BUILD CUSTOM MODULES
 #
 RUN set -ex; \
@@ -44,7 +44,7 @@ RUN set -ex; \
     geoip-dev \
     git \
     \
-    && export NGINX_VERSION="$(wget -qO- https://raw.githubusercontent.com/nginxinc/docker-nginx/master/mainline/alpine/Dockerfile | grep 'ENV NGINX_VERSION' | cut -c 19-)" \
+    && export NGINX_VERSION="$(nginx -v 2>&1 | awk -F '[/]' '{print $2}')" \
     && mkdir -p /usr/src \
     && git clone https://github.com/nginx-modules/ngx_cache_purge.git /usr/src/ngx_cache_purge \
     && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module \
@@ -62,7 +62,7 @@ RUN set -ex; \
     && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
-#    
+#
 # END BUILD CUSTOM MODULES
 #
 
