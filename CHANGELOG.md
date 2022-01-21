@@ -1,14 +1,14 @@
 # CHANGELOG
 
 ## 2021-07-14
-- Use nginx -v instead to get version [c9a5a8f](https://github.com/demyxco/nginx/commit/c9a5a8f12fe1f43390753039569d042087299ac4)
-- Use nginx:mainline-alpine as the FROM image [f07028f](https://github.com/demyxco/nginx/commit/f07028fc87a78f29859f79e9410d9e78e3e66941)
-- Use latest distro [218ffc4](https://github.com/demyxco/nginx/commit/218ffc4f0e353972dba9be2fb4e24dfed5e715e2)
+- Use nginx -v instead to get version [c9a5a8f](https://github.com/demyxsh/nginx/commit/c9a5a8f12fe1f43390753039569d042087299ac4)
+- Use nginx:mainline-alpine as the FROM image [f07028f](https://github.com/demyxsh/nginx/commit/f07028fc87a78f29859f79e9410d9e78e3e66941)
+- Use latest distro [218ffc4](https://github.com/demyxsh/nginx/commit/218ffc4f0e353972dba9be2fb4e24dfed5e715e2)
 
 ## 2021-06-16
-- Add missing environment variables [f0798bf](https://github.com/demyxco/nginx/commit/f0798bf02b9d3c8d83cb01d6ecc326f244c4e395)
-- Update ngx_cache_purge repo [8da2097](https://github.com/demyxco/nginx/commit/8da209764dd8fbb7f72393e8fe52bbf2b8ab8e06)
-- Remove unused ENV [e10a886](https://github.com/demyxco/nginx/commit/e10a88645d31bf35ea887297aa184e2c9bbdda75)
+- Add missing environment variables [f0798bf](https://github.com/demyxsh/nginx/commit/f0798bf02b9d3c8d83cb01d6ecc326f244c4e395)
+- Update ngx_cache_purge repo [8da2097](https://github.com/demyxsh/nginx/commit/8da209764dd8fbb7f72393e8fe52bbf2b8ab8e06)
+- Remove unused ENV [e10a886](https://github.com/demyxsh/nginx/commit/e10a88645d31bf35ea887297aa184e2c9bbdda75)
 
 ## 2021-02-25
 - Added
