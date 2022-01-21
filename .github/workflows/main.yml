@@ -35,7 +35,7 @@ jobs:
           docker network create demyx
 
           docker run -d \
-            --name=mariadb \
+            --name=demyx_db \
             --network=demyx \
             -e DEMYX_DATABASE=demyx \
             -e DEMYX_USERNAME=demyx \
@@ -47,7 +47,7 @@ jobs:
             --name=demyx_wp \
             --network=demyx \
             -v demyx_wp:/demyx \
-            -e DEMYX_DB_HOST=${{ env.DEMYX_REPOSITORY }} \
+            -e DEMYX_DB_HOST=demyx_db \
             -e DEMYX_DB_NAME=demyx \
             -e DEMYX_DB_USER=demyx \
             -e DEMYX_DB_PASSWORD=demyx \
