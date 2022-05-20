@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2022-05-19
+- Add missing fastcgi_param for wp-cron.php [3097f64](https://github.com/demyxsh/nginx/commit/3097f642e4060c32489ac7181cd784a1e57dc3c5)
+
 ## 2021-07-14
 - Use nginx -v instead to get version [c9a5a8f](https://github.com/demyxsh/nginx/commit/c9a5a8f12fe1f43390753039569d042087299ac4)
 - Use nginx:mainline-alpine as the FROM image [f07028f](https://github.com/demyxsh/nginx/commit/f07028fc87a78f29859f79e9410d9e78e3e66941)
