@@ -38,7 +38,7 @@ RUN set -ex; \
     pcre-dev \
     zlib-dev \
     linux-headers \
-    gnupg1 \
+    gnupg \
     libxslt-dev \
     gd-dev \
     geoip-dev \
