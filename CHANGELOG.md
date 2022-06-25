@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2022-06-24
+- Correct package name [a36adca](https://github.com/demyxsh/nginx/commit/a36adca1fa9f69a6ea9ab28ba592f582f8562dc5)
+
 ## 2022-05-19
 - Add missing fastcgi_param for wp-cron.php [3097f64](https://github.com/demyxsh/nginx/commit/3097f642e4060c32489ac7181cd784a1e57dc3c5)
 
