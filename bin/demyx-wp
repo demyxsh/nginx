@@ -152,6 +152,7 @@ http {
     disable_symlinks off;  
 
     access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
+    autoindex_localtime on;
 
     ${DEMYX_REAL_IP:-}
     ${DEMYX_CACHE_SERVER:-}
