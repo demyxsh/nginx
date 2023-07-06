@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2023-07-05
+- Misc update [97724b4](https://github.com/demyxsh/nginx/commit/97724b43a6e2568b55e96282e52c57c20e99366b)
+
 ## 2022-06-24
 - Correct package name [a36adca](https://github.com/demyxsh/nginx/commit/a36adca1fa9f69a6ea9ab28ba592f582f8562dc5)
 
