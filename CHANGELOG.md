@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2023-07-06
+- Error log wasn't showing local time [a433294](https://github.com/demyxsh/nginx/commit/a433294dac86d824f5047e1a2f3233ef73b6464b)
+
 ## 2023-07-05
 - Misc update [97724b4](https://github.com/demyxsh/nginx/commit/97724b43a6e2568b55e96282e52c57c20e99366b)
 
