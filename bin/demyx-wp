@@ -148,8 +148,8 @@ http {
     listen 80;
     root ${DEMYX};
     index index.php index.html index.htm;
-  
-    disable_symlinks off;  
+
+    disable_symlinks off;
 
     access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
     autoindex_localtime on;
@@ -190,7 +190,7 @@ if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
         echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     done
     echo "deny all;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
-    
+
     if [[ "$DEMYX_WHITELIST" = login ]]; then
         sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
     elif [[ "$DEMYX_WHITELIST" = all ]]; then
