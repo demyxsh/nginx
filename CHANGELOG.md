@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2023-07-16
+- Misc updates [bffd8dd](https://github.com/demyxsh/nginx/commit/bffd8dd2f5c256e853150b7e3f35a0799e95040d)
+- Update directives for WooCommerce [7408f0e](https://github.com/demyxsh/nginx/commit/7408f0ec07d8bbf83de2cc5599983e5b22c84c18)
+- Use bash replace function [bcee331](https://github.com/demyxsh/nginx/commit/bcee33183852285e7f6c1deb199c4fdccd8c1c57)
+
 ## 2023-07-06
 - Error log wasn't showing local time [a433294](https://github.com/demyxsh/nginx/commit/a433294dac86d824f5047e1a2f3233ef73b6464b)
 
