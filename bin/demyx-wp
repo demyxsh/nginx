@@ -184,8 +184,8 @@ http {
 
 # NGINX IP whitelist
 if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
-    DEMYX_WHITELIST_IPS="$(echo "$DEMYX_WHITELIST_IP" | sed "s|,| |g")"
-    for i in $DEMYX_WHITELIST_IPS
+    DEMYX_WHITELIST_IP="${DEMYX_WHITELIST_IP//,/}"
+    for i in $DEMYX_WHITELIST_IP
     do
         echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
     done
