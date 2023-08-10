@@ -40,7 +40,7 @@ git remote set-url origin git@github.com:demyxsh/nginx.git
 docker run -dit --rm \
 --name=nginx \
 -e DEMYX_BASIC_AUTH=false \                 # WordPress only setting
--e DEMYX_BASIC_AUTH_HTPASSWD=false \        # WordPress only setting
+-e DEMYX_BASIC_AUTH_HTPASSWD=false \        # WordPress only setting (format: username:password using apache2-utils or others)
 -e DEMYX_BEDROCK=false \                    # Bedrock only setting
 -e DEMYX_CACHE=false \                      # WordPress only setting
 -e DEMYX_DOMAIN=localhost \                 # WordPress only setting
