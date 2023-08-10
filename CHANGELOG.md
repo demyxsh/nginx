@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2023-08-10
+- Include format and tip [6f0c133](https://github.com/demyxsh/nginx/commit/6f0c1333aea0d91615fddc09573cf9e6ec246706)
+- Update basic auth if statement with missing variable [cb27cc6](https://github.com/demyxsh/nginx/commit/cb27cc63c2b8e682e6ec6f8414cdefe61270a8c7)
+- Adding missing variable [3ee857e](https://github.com/demyxsh/nginx/commit/3ee857ef2ba47ce22fdc6285798ef579712599b8)
+
 ## 2023-07-16
 - Misc updates [bffd8dd](https://github.com/demyxsh/nginx/commit/bffd8dd2f5c256e853150b7e3f35a0799e95040d)
 - Update directives for WooCommerce [7408f0e](https://github.com/demyxsh/nginx/commit/7408f0ec07d8bbf83de2cc5599983e5b22c84c18)
