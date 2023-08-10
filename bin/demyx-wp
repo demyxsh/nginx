@@ -54,7 +54,13 @@ fi
 
 # NGINX Basic auth
 DEMYX_BASIC_AUTH="${DEMYX_BASIC_AUTH:-false}"
-if [[ "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true || "${DEMYX_BASIC_AUTH}" = true && "$DEMYX_WORDPRESS" = true ]]; then
+if [[ "${DEMYX_BASIC_AUTH}" = true &&
+      "$DEMYX_BASIC_AUTH_HTPASSWD" != false &&
+      "$DEMYX_WORDPRESS" = true
+      ||
+      "${DEMYX_BASIC_AUTH}" = true &&
+      "$DEMYX_BASIC_AUTH_HTPASSWD" != false &&
+      "$DEMYX_WORDPRESS" = true ]]; then
     echo "$DEMYX_BASIC_AUTH_HTPASSWD" > "$DEMYX_CONFIG"/.htpasswd
     sed -i "s|#include ${DEMYX_CONFIG}/nginx/auth.conf;|include ${DEMYX_CONFIG}/nginx/auth.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
 fi
