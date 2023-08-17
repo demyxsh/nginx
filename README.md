@@ -33,8 +33,8 @@ git remote set-url origin git@github.com:demyxsh/nginx.git
 ## Usage
 * To generate htpasswd: `docker run -it --rm demyx/utilities "htpasswd -nb demyx demyx"`
 * DEMYX_BASIC_AUTH_HTPASSWD must have double dollar signs ($$)
-* DEMYX_WHITELIST accepted values; all, login
-* DEMYX_WHITELIST_IP must have a valid IP address
+* DEMYX_WHITELIST accepted values: all, login
+* DEMYX_WHITELIST_IP must have a valid IP address, multiple IPs in csv
 
 ```
 docker run -dit --rm \
