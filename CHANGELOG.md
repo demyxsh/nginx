@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2023-08-17
+- Fix multiple IP bug [9743a9b](https://github.com/demyxsh/nginx/commit/9743a9b863eb4d235945af2566dde06810fa888e)
+
 ## 2023-08-10
 - Include format and tip [6f0c133](https://github.com/demyxsh/nginx/commit/6f0c1333aea0d91615fddc09573cf9e6ec246706)
 - Update basic auth if statement with missing variable [cb27cc6](https://github.com/demyxsh/nginx/commit/cb27cc63c2b8e682e6ec6f8414cdefe61270a8c7)
