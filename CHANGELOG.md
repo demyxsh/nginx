@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2023-09-19
+- Fix cache purging issue [49ed4bf](https://github.com/demyxsh/nginx/commit/49ed4bff8aa33424e7539b15e6ae906fd919c535)
+
 ## 2023-08-17
 - Fix multiple IP bug [9743a9b](https://github.com/demyxsh/nginx/commit/9743a9b863eb4d235945af2566dde06810fa888e)
 
