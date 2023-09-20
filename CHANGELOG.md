@@ -2,6 +2,8 @@
 
 ## 2023-09-19
 - Fix cache purging issue [49ed4bf](https://github.com/demyxsh/nginx/commit/49ed4bff8aa33424e7539b15e6ae906fd919c535)
+- Misc updates [6367d4f](https://github.com/demyxsh/nginx/commit/6367d4f2c8dbfc472bd2a5d45a41882111ce549c)
+- Add tests for headers and cache [2855fcb](https://github.com/demyxsh/nginx/commit/2855fcbe17d731740d7dcf1d64b1a7c9b6c40056)
 
 ## 2023-08-17
 - Fix multiple IP bug [9743a9b](https://github.com/demyxsh/nginx/commit/9743a9b863eb4d235945af2566dde06810fa888e)
