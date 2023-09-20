@@ -44,21 +44,23 @@ RUN set -ex; \
     geoip-dev \
     git \
     \
-    && export NGINX_VERSION="$(nginx -v 2>&1 | awk -F '[/]' '{print $2}')" \
     && mkdir -p /usr/src \
     && git clone https://github.com/nginx-modules/ngx_cache_purge.git /usr/src/ngx_cache_purge \
-    && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module \
+    && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module
+
+RUN set -ex ;\
+    export NGINX_VERSION="$(nginx -v 2>&1 | awk -F '[/]' '{print $2}')" \
     && wget https://nginx.org/download/nginx-"$NGINX_VERSION".tar.gz -qO /usr/src/nginx.tar.gz \
     && tar -xzf /usr/src/nginx.tar.gz -C /usr/src \
     && rm /usr/src/nginx.tar.gz \
     && cd /usr/src/nginx-"$NGINX_VERSION" \
     && ./configure --with-compat --add-dynamic-module=/usr/src/ngx_cache_purge \
     && make modules \
-    && cp objs/ngx_http_cache_purge_module.so /etc/nginx/modules \
+    && cp objs/ngx_http_cache_purge_module.so /usr/lib/nginx/modules \
     && make clean \
     && ./configure --with-compat --add-dynamic-module=/usr/src/headers-more-nginx-module \
     && make modules \
-    && cp objs/ngx_http_headers_more_filter_module.so /etc/nginx/modules \
+    && cp objs/ngx_http_headers_more_filter_module.so /usr/lib/nginx/modules \
     && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
