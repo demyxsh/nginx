@@ -80,8 +80,23 @@ jobs:
           sleep 5
 
           DEMYX_TEST="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "wget -qO- http://localhost" 2>&1)"
+          DEMYX_TEST_RESPONSE="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "curl -I http://localhost" 2>&1)"
+          DEMYX_TEST_CACHE="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "curl -I http://localhost; curl http://localhost/purge/" 2>&1)"
+
           if [[ "$DEMYX_TEST" == *"Hello world"* ]]; then
-            echo "$DEMYX_TEST"
+            echo "WordPress test passed."
+          else
+            exit 1
+          fi
+
+          if [[ "$DEMYX_TEST_RESPONSE" == *"X-Powered-By: Demyx - https://demyx.sh"* ]]; then
+            echo "HTTP headers test passed."
+          else
+            exit 1
+          fi
+
+          if [[ "$DEMYX_TEST_CACHE" == *"Successful purge"* ]]; then
+            echo "Cache purge test passed."
           else
             exit 1
           fi
