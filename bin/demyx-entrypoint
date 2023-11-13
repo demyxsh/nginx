@@ -11,9 +11,9 @@ set -euo pipefail
 
 # Generate wp config
 if [[ "$DEMYX_WORDPRESS" = true ]]; then
-    [[ ! -f "$DEMYX_CONFIG"/nginx.conf ]] && demyx-wp
+    demyx-wp
 else
-    [[ ! -f "$DEMYX_CONFIG"/nginx.conf ]] && demyx-default
+    demyx-default
 fi
 
 # Set ownerships to demyx
