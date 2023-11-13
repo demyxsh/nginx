@@ -200,19 +200,18 @@ http {
   }
 }" > "$DEMYX_CONFIG"/nginx.conf
 
-# NGINX IP whitelist
-if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
-    DEMYX_WHITELIST_IP="${DEMYX_WHITELIST_IP//,/ }"
-    for i in $DEMYX_WHITELIST_IP
-    do
-        echo "allow $i;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
-    done
-    echo "deny all;" >> "$DEMYX_CONFIG"/nginx/whitelist.conf
+# envsubst
+# shellcheck disable=SC2016
+envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/wp.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
+    mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/wp.conf
 
-    if [[ "$DEMYX_WHITELIST" = login ]]; then
-        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
-    elif [[ "$DEMYX_WHITELIST" = all ]]; then
-        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/nginx.conf
-        sed -i "s|#include ${DEMYX_CONFIG}/nginx/whitelist.conf;|include ${DEMYX_CONFIG}/nginx/whitelist.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
-    fi
+if [[ -f "$DEMYX_CONFIG"/extras/auth.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/auth.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
+        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/auth.conf
+fi
+if [[ -f "$DEMYX_CONFIG"/extras/bedrock.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/bedrock.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
+        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/bedrock.conf
 fi
