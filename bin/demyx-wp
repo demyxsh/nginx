@@ -19,50 +19,50 @@ set -euo pipefail
 [[ -n "${WORDPRESS_CONTAINER_PORT:-}" ]] && DEMYX_WORDPRESS_CONTAINER_PORT="$WORDPRESS_CONTAINER_PORT"
 
 # Bedrock config
-if [[ "${DEMYX_BEDROCK:-false}" = true && "$DEMYX_WORDPRESS" = true ]]; then
+DEMYX_BEDROCK="${DEMYX_BEDROCK:-false}"
+if [[ "$DEMYX_BEDROCK" = true && "$DEMYX_WORDPRESS" = true ]]; then
     DEMYX="$DEMYX"/web
-    DEMYX_BEDROCK_INCLUDE="include ${DEMYX_CONFIG}/nginx/bedrock.conf;"
-    sed -i "s|/wp-login.php|/wp/wp-login.php|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+else
+    rm -f "$DEMYX_CONFIG"/extras/bedrock.conf
 fi
 
 # Cloudflare check
 DEMYX_CLOUDFLARE_CHECK="$(curl -m 1 -svo /dev/null "$DEMYX_DOMAIN" 2>&1 | grep "Server: cloudflare" || true)"
-if [[ -n "$DEMYX_CLOUDFLARE_CHECK" ]]; then
-    DEMYX_REAL_IP="real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
-else
-    DEMYX_REAL_IP="real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
-fi
+{
+  if [[ -n "$DEMYX_CLOUDFLARE_CHECK" ]]; then
+      echo "real_ip_header CF-Connecting-IP; set_real_ip_from 0.0.0.0/0;"
+  else
+      echo "real_ip_header X-Forwarded-For; set_real_ip_from 0.0.0.0/0;"
+  fi
+} > "$DEMYX_CONFIG"/extras/cf.conf
 
 # NGINX FastCGI cache
-if [[ "$DEMYX_CACHE" = on && "$DEMYX_WORDPRESS" = true || "$DEMYX_CACHE" = true && "$DEMYX_WORDPRESS" = true ]]; then
-    DEMYX_CACHE_HTTP="include ${DEMYX_CONFIG}/cache/http.conf;"
-    DEMYX_CACHE_SERVER="include ${DEMYX_CONFIG}/cache/server.conf;"
-    DEMYX_CACHE_LOCATION="include ${DEMYX_CONFIG}/cache/location.conf;"
-fi
+[[ "$DEMYX_CACHE" = false ]] && rm -f "$DEMYX_CONFIG"/extras/cache-*.conf
 
-# NGINX rate limiting
-if [[ "$DEMYX_RATE_LIMIT" = on || "$DEMYX_RATE_LIMIT" = true ]]; then
-    DEMYX_RATE_LIMIT_CONNECTION="limit_conn addr 5;"
-    DEMYX_RATE_LIMIT_LOCATION="limit_req zone=ip burst=5 nodelay;
-    limit_req zone=server burst=10;"
-fi
-
-# NGINX xmlrpc.php
-if [[ "$DEMYX_XMLRPC" = on && "$DEMYX_WORDPRESS" = true || "$DEMYX_XMLRPC" = true && "$DEMYX_WORDPRESS" = true ]]; then
-    mv "$DEMYX_CONFIG"/common/xmlrpc.conf "$DEMYX_CONFIG"/common/xmlrpc.on
-fi
-
-# NGINX Basic auth
+# NGINX Basic auth for WP login only
 DEMYX_BASIC_AUTH="${DEMYX_BASIC_AUTH:-false}"
 if [[ "${DEMYX_BASIC_AUTH}" = true &&
       "$DEMYX_BASIC_AUTH_HTPASSWD" != false &&
-      "$DEMYX_WORDPRESS" = true
-      ||
-      "${DEMYX_BASIC_AUTH}" = true &&
-      "$DEMYX_BASIC_AUTH_HTPASSWD" != false &&
       "$DEMYX_WORDPRESS" = true ]]; then
     echo "$DEMYX_BASIC_AUTH_HTPASSWD" > "$DEMYX_CONFIG"/.htpasswd
-    sed -i "s|#include ${DEMYX_CONFIG}/nginx/auth.conf;|include ${DEMYX_CONFIG}/nginx/auth.conf;|g" "$DEMYX_CONFIG"/common/wpcommon.conf
+elif [[ "$DEMYX_BASIC_AUTH" = false ]]; then
+    rm -f "$DEMYX_CONFIG"/extras/auth.conf
+fi
+
+# NGINX rate limiting
+[[ "$DEMYX_RATE_LIMIT" = false ]] && rm -f "$DEMYX_CONFIG"/extras/rate-limit.conf
+
+# NGINX xmlrpc.php
+[[ "$DEMYX_XMLRPC" = false && "$DEMYX_WORDPRESS" = true ]] && rm -f "$DEMYX_CONFIG"/extras/xmlrpc.conf
+
+# NGINX IP whitelist
+if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
+    DEMYX_WHITELIST_IP="${DEMYX_WHITELIST_IP//,/ }"
+    for i in $DEMYX_WHITELIST_IP
+    do
+        echo "allow $i;" >> "$DEMYX_CONFIG"/extras/whitelist.conf
+    done
+    echo "deny all;" >> "$DEMYX_CONFIG"/extras/whitelist.conf
 fi
 
 echo "# Demyx
