@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2023-11-13
+- Completely restructure directories and files [b60e961](https://github.com/demyxsh/nginx/commit/b60e961cdd42bbdc2c5f1d3a32961687031f9cc1)
+- envsubst so variables are parsed [5dbd163](https://github.com/demyxsh/nginx/commit/5dbd1634a072185305323c2af3d59779ca901aad)
+- Use new include rule [1745b08](https://github.com/demyxsh/nginx/commit/1745b088a6791cafe0f8b0c394fb027afd6cb0d4)
+- User override conditionals [85efc1d](https://github.com/demyxsh/nginx/commit/85efc1dc4dbe7faa5e66092ac87c620ff1e46753)
+- Use new paths and update logic [0466bef](https://github.com/demyxsh/nginx/commit/0466befa118d21ff1d5bddb1e1483403a3444990)
+- Update logic [308ca89](https://github.com/demyxsh/nginx/commit/308ca89e17988642064aac6b97f85a905f994b16)
+
 ## 2023-09-19
 - Fix cache purging issue [49ed4bf](https://github.com/demyxsh/nginx/commit/49ed4bff8aa33424e7539b15e6ae906fd919c535)
 - Misc updates [6367d4f](https://github.com/demyxsh/nginx/commit/6367d4f2c8dbfc472bd2a5d45a41882111ce549c)
