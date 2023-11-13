@@ -150,7 +150,7 @@ http {
   more_set_headers \"Referrer-Policy : strict-origin-when-cross-origin\";
   more_set_headers \"X-Download-Options : noopen\";
 
-  include ${DEMYX_CONFIG}/nginx/mime.types;
+  include ${DEMYX_CONFIG}/mime.types;
   default_type application/octet-stream;
 
   gzip off;
@@ -159,12 +159,7 @@ http {
     server ${DEMYX_WORDPRESS_CONTAINER}:${DEMYX_WORDPRESS_CONTAINER_PORT};
   }
 
-  map \$http_accept \$webp_suffix {
-    default \"\";
-    \"~*webp\" \".webp\";
-  }
-
-  ${DEMYX_CACHE_HTTP:-}
+  include ${DEMYX_CONFIG}/extras/cache-http[.]conf;
 
   server {
     listen 80;
@@ -176,15 +171,14 @@ http {
     access_log ${DEMYX_LOG}/${DEMYX_DOMAIN}.access.log main;
     autoindex_localtime on;
 
-    ${DEMYX_REAL_IP:-}
-    ${DEMYX_CACHE_SERVER:-}
-    ${DEMYX_RATE_LIMIT_CONNECTION:-}
-    ${DEMYX_RATE_LIMIT_LOCATION:-}
+    include ${DEMYX_CONFIG}/extras/server-00[.]conf;
+    include ${DEMYX_CONFIG}/extras/cache-server[.]conf;
 
     location / {
       try_files \$uri \$uri/ /index.php?\$args;
-      ${DEMYX_BEDROCK_INCLUDE:-}
-      #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
+      include ${DEMYX_CONFIG}/extras/bedrock[.]conf;
+      include ${DEMYX_CONFIG}/extras/rate-limit[.]conf;
+      include ${DEMYX_CONFIG}/extras/whitelist[.]conf;
     }
 
     location ~ [^/]\.php(/|\$) {
@@ -196,11 +190,13 @@ http {
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
       include /etc/nginx/fastcgi_params;
-      ${DEMYX_CACHE_LOCATION:-}
-      #include ${DEMYX_CONFIG}/nginx/whitelist.conf;
+      include ${DEMYX_CONFIG}/extras/cache-location[.]conf;
+      include ${DEMYX_CONFIG}/extras/whitelist[.]conf;
     }
 
-    include ${DEMYX_CONFIG}/common/*.conf;
+    include ${DEMYX_CONFIG}/conf.d/*.conf;
+    include ${DEMYX_CONFIG}/extras/cf.conf;
+    include ${DEMYX_CONFIG}/custom/nginx/conf.d/*.conf;
   }
 }" > "$DEMYX_CONFIG"/nginx.conf
 
