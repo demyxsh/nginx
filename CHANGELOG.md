@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2023-11-13
+- Combine duplicate rules [40c75ca](https://github.com/demyxsh/nginx/commit/40c75cae5241a3eea34293c19fb981a90784d0e4)
+- Check if file exists [a92dd21](https://github.com/demyxsh/nginx/commit/a92dd214ccedde22f83f266571de90e714670605)
 - Remove duplicates [d95a4ff](https://github.com/demyxsh/nginx/commit/d95a4ff4b90ca9ad6fd5e2a1ffa06dd741368d67)
 - Completely restructure directories and files [b60e961](https://github.com/demyxsh/nginx/commit/b60e961cdd42bbdc2c5f1d3a32961687031f9cc1)
 - envsubst so variables are parsed [5dbd163](https://github.com/demyxsh/nginx/commit/5dbd1634a072185305323c2af3d59779ca901aad)
