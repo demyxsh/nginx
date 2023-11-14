@@ -201,10 +201,11 @@ http {
 }" > "$DEMYX_CONFIG"/nginx.conf
 
 # envsubst
-# shellcheck disable=SC2016
-envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/wp.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
-    mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/wp.conf
-
+if [[ -f "$DEMYX_CONFIG"/conf.d/wp.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/wp.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
+        mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/wp.conf
+fi
 if [[ -f "$DEMYX_CONFIG"/extras/auth.conf ]]; then
     # shellcheck disable=SC2016
     envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/auth.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
