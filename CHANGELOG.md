@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2023-11-13
+- Remove duplicates [d95a4ff](https://github.com/demyxsh/nginx/commit/d95a4ff4b90ca9ad6fd5e2a1ffa06dd741368d67)
 - Completely restructure directories and files [b60e961](https://github.com/demyxsh/nginx/commit/b60e961cdd42bbdc2c5f1d3a32961687031f9cc1)
 - envsubst so variables are parsed [5dbd163](https://github.com/demyxsh/nginx/commit/5dbd1634a072185305323c2af3d59779ca901aad)
 - Use new include rule [1745b08](https://github.com/demyxsh/nginx/commit/1745b088a6791cafe0f8b0c394fb027afd6cb0d4)
