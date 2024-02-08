@@ -27,6 +27,25 @@ ENV DEMYX_WORDPRESS_CONTAINER_PORT      9000
 ENV DEMYX_XMLRPC                        false
 ENV TZ                                  America/Los_Angeles
 
+# Packages
+RUN set -ex; \
+    apk --update --no-cache add bash curl sudo
+
+# Configure Demyx
+RUN set -ex; \
+    # Create demyx user
+    addgroup -g 1000 -S demyx; \
+    adduser -u 1000 -D -S -G demyx demyx; \
+    \
+    # Create demyx directories
+    install -d -m 0755 -o demyx -g demyx "$DEMYX"; \
+    install -d -m 0755 -o demyx -g demyx "$DEMYX_CONFIG"; \
+    install -d -m 0755 -o demyx -g demyx "$DEMYX_LOG"; \
+    \
+    # Update .bashrc
+    echo 'PS1="$(whoami)@\h:\w \$ "' > /home/demyx/.bashrc; \
+    echo 'PS1="$(whoami)@\h:\w \$ "' > /root/.bashrc
+
 #
 # BUILD CUSTOM MODULES
 #
