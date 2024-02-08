@@ -43,6 +43,7 @@ docker run -dit --rm \
 -e DEMYX_BASIC_AUTH_HTPASSWD=false \        # WordPress only setting (format: username:password using apache2-utils or others)
 -e DEMYX_BEDROCK=false \                    # Bedrock only setting
 -e DEMYX_CACHE=false \                      # WordPress only setting
+-e DEMYX_CACHE_TYPE=default \               # WordPress only setting
 -e DEMYX_DOMAIN=localhost \                 # WordPress only setting
 -e DEMYX_RATE_LIMIT=false \                 # WordPress only setting
 -e DEMYX_UPLOAD_LIMIT=128M \                # WordPress only setting

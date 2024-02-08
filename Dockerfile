@@ -12,6 +12,7 @@ ENV DEMYX_BASIC_AUTH                    false
 ENV DEMYX_BASIC_AUTH_HTPASSWD           false
 ENV DEMYX_BEDROCK                       false
 ENV DEMYX_CACHE                         false
+ENV DEMYX_CACHE_TYPE                    default
 ENV DEMYX_CONFIG                        /etc/demyx
 ENV DEMYX_DOMAIN                        localhost
 ENV DEMYX_LOG                           /var/log/demyx
