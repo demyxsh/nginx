@@ -82,30 +82,29 @@ RUN set -ex ;\
     && make modules \
     && cp objs/ngx_http_headers_more_filter_module.so /usr/lib/nginx/modules \
     && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/*
+    && apk del .build-deps
 #
 # END BUILD CUSTOM MODULES
 #
 
-# Packages
+#
+#   Rocket-Nginx support for WP Rocket - https://github.com/SatelliteWP/rocket-nginx
+#
 RUN set -ex; \
-    apk --update --no-cache add bash curl sudo
-
-# Configure Demyx
-RUN set -ex; \
-    # Create demyx user
-    addgroup -g 1000 -S demyx; \
-    adduser -u 1000 -D -S -G demyx demyx; \
+    apk add --no-cache --virtual .build-deps git php81; \
     \
-    # Create demyx directories
-    install -d -m 0755 -o demyx -g demyx "$DEMYX"; \
-    install -d -m 0755 -o demyx -g demyx "$DEMYX_CONFIG"; \
-    install -d -m 0755 -o demyx -g demyx "$DEMYX_LOG"; \
+    su -c "mkdir -p ${DEMYX_CONFIG}/custom/nginx; \
+        cd ${DEMYX_CONFIG}/custom/nginx; \
+        git clone https://github.com/SatelliteWP/rocket-nginx.git; \
+        cd rocket-nginx; \
+        cp rocket-nginx.ini.disabled rocket-nginx.ini; \
+        php81 rocket-parser.php; \
+        cd ..; \
+        tar -czf ${DEMYX_CONFIG}/rocket-nginx.tgz rocket-nginx" -s /bin/bash demyx; \
     \
-    # Update .bashrc
-    echo 'PS1="$(whoami)@\h:\w \$ "' > /home/demyx/.bashrc; \
-    echo 'PS1="$(whoami)@\h:\w \$ "' > /root/.bashrc
+    apk del .build-deps; \
+    rm -rf /var/cache/apk/*; \
+    rm -rf "$DEMYX_CONFIG"/custom/nginx
 
 # Configure sudo
 RUN set -ex; \
