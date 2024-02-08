@@ -122,8 +122,8 @@ http {
 
   server_tokens off;
   reset_timedout_connection on;
-  add_header X-Powered-By \"Demyx - https://demyx.sh\";
-  add_header X-FastCGI-Cache \$upstream_cache_status;
+  more_set_headers \"X-Powered-By: Demyx - https://demyx.sh\";
+  more_set_headers \"X-FastCGI-Cache: \$upstream_cache_status\";
 
   limit_req_status 503;
   limit_req_zone \$request_uri zone=common:10m rate=1r/s;
