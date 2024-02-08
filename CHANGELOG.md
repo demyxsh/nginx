@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2024-02-07
+- Merge branch 'master' of github.com:demyxsh/nginx [041d1e2](https://github.com/demyxsh/nginx/commit/041d1e27f67a2616667b0426f92e2d2ceb41decb)
+- Update description with shameless plug and support link [b32c678](https://github.com/demyxsh/nginx/commit/b32c678347a280f1d86f8656d925ebaffe4955a6)
+- Support for WP Rocket with [rocket-nginx](https://github.com/SatelliteWP/rocket-nginx) [77b86de](https://github.com/demyxsh/nginx/commit/77b86dea6f3a27bd52c3ed0f722a2a18decfe0fd)
+- Move RUN commands up [e98768a](https://github.com/demyxsh/nginx/commit/e98768a1e3b40534f9bb0c7f044e3dacb93ff860)
+- Add new environment variable [5be7fa7](https://github.com/demyxsh/nginx/commit/5be7fa72345d03f498c404b7d2523932074801c5)
+- Fix base image to Alpine 3.18 [754af4a](https://github.com/demyxsh/nginx/commit/754af4a4ea2c32cb1b8d5ad84908cff3eaed92fe)
+- Switch to more_set_headers [02eb584](https://github.com/demyxsh/nginx/commit/02eb584a565d156638ca3eedfbae665590f52d10)
+
 ## 2023-11-13
 - Combine duplicate rules [40c75ca](https://github.com/demyxsh/nginx/commit/40c75cae5241a3eea34293c19fb981a90784d0e4)
 - Check if file exists [a92dd21](https://github.com/demyxsh/nginx/commit/a92dd214ccedde22f83f266571de90e714670605)
