@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## 2024-02-07
+- Update shamless plug [44d302f](https://github.com/demyxsh/nginx/commit/44d302f324f2e8eddf3bada5315c391e78da8cdb)
+- Double upload limit [d11a61e](https://github.com/demyxsh/nginx/commit/d11a61e385603d6dc70573338d71bfb2202bcf31)
+- 2024-02-07 [2d5c8f6](https://github.com/demyxsh/nginx/commit/2d5c8f6adb3d63376afc7ec35d0b352c5a259425)
 - Merge branch 'master' of github.com:demyxsh/nginx [041d1e2](https://github.com/demyxsh/nginx/commit/041d1e27f67a2616667b0426f92e2d2ceb41decb)
 - Update description with shameless plug and support link [b32c678](https://github.com/demyxsh/nginx/commit/b32c678347a280f1d86f8656d925ebaffe4955a6)
 - Support for WP Rocket with [rocket-nginx](https://github.com/SatelliteWP/rocket-nginx) [77b86de](https://github.com/demyxsh/nginx/commit/77b86dea6f3a27bd52c3ed0f722a2a18decfe0fd)
