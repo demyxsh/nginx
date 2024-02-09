@@ -17,7 +17,7 @@ ENV DEMYX_CONFIG                        /etc/demyx
 ENV DEMYX_DOMAIN                        localhost
 ENV DEMYX_LOG                           /var/log/demyx
 ENV DEMYX_RATE_LIMIT                    false
-ENV DEMYX_UPLOAD_LIMIT                  128M
+ENV DEMYX_UPLOAD_LIMIT                  256M
 ENV DEMYX_WHITELIST                     false
 ENV DEMYX_WHITELIST_IP                  false
 ENV DEMYX_WHITELIST_TYPE                false

@@ -54,7 +54,7 @@ docker run -dit --rm \
 -e DEMYX_CACHE_TYPE=default \               # WordPress only setting
 -e DEMYX_DOMAIN=localhost \                 # WordPress only setting
 -e DEMYX_RATE_LIMIT=false \                 # WordPress only setting
--e DEMYX_UPLOAD_LIMIT=128M \                # WordPress only setting
+-e DEMYX_UPLOAD_LIMIT=256M \                # WordPress only setting
 -e DEMYX_WHITELIST=false \                  # WordPress only setting
 -e DEMYX_WHITELIST_IP=false \               # WordPress only setting
 -e DEMYX_WHITELIST_TYPE=false \             # WordPress only setting
