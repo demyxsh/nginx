@@ -65,7 +65,9 @@ fi
 [[ "$DEMYX_RATE_LIMIT" = false ]] && rm -f "$DEMYX_CONFIG"/extras/rate-limit.conf
 
 # NGINX xmlrpc.php
-[[ "$DEMYX_XMLRPC" = false && "$DEMYX_WORDPRESS" = true ]] && rm -f "$DEMYX_CONFIG"/extras/xmlrpc.conf
+if [[ "$DEMYX_XMLRPC" = true ]]; then
+    rm -f "$DEMYX_CONFIG"/conf.d/xmlrpc.conf
+fi
 
 # NGINX IP whitelist
 if [[ "$DEMYX_WHITELIST" != false && "$DEMYX_WORDPRESS" = true ]]; then
@@ -90,7 +92,6 @@ fi
 [[ -f "$DEMYX_CONFIG"/custom/nginx/extras/rate-limit.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/rate-limit.conf "$DEMYX_CONFIG"/extras/rate-limit.conf
 [[ -f "$DEMYX_CONFIG"/custom/nginx/extras/server-00.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/server-00.conf "$DEMYX_CONFIG"/extras/server-00.conf
 [[ -f "$DEMYX_CONFIG"/custom/nginx/extras/whitelist.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/whitelist.conf "$DEMYX_CONFIG"/extras/whitelist.conf
-[[ -f "$DEMYX_CONFIG"/custom/nginx/extras/xmlrpc.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/xmlrpc.conf "$DEMYX_CONFIG"/extras/xmlrpc.conf
 
 echo "# Demyx
 # https://demyx.sh
