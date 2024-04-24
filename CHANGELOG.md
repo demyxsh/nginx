@@ -3,6 +3,9 @@
 ## 2024-04-03
 - xmlrpc.php wasn't being denied properly [8e41ea4](https://github.com/demyxsh/nginx/commit/8e41ea4702fde761c8ccd126080d9e96ea2015eb)
 
+## 2024-04-24
+- Update fastcgi_cache_path values [cc72e38](https://github.com/demyxsh/nginx/commit/cc72e388201b4faa6d95474365078fc6e192427d)
+
 ## 2024-02-07
 - Update shamless plug [44d302f](https://github.com/demyxsh/nginx/commit/44d302f324f2e8eddf3bada5315c391e78da8cdb)
 - Double upload limit [d11a61e](https://github.com/demyxsh/nginx/commit/d11a61e385603d6dc70573338d71bfb2202bcf31)
