@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2024-04-24
+- Add new environment variable to control cache expiration interval `DEMYX_CACHE_INACTIVE` [a92c41e](https://github.com/demyxsh/nginx/commit/a92c41ec1dcc1de9f603426c0c99f57ae1c86382)
 - Apparently 1g isn't accepted [a86f101](https://github.com/demyxsh/nginx/commit/a86f101148bbf2ae7c5953ab35914fecebb657bd)
 - Update fastcgi_cache_path values [cc72e38](https://github.com/demyxsh/nginx/commit/cc72e388201b4faa6d95474365078fc6e192427d)
 
