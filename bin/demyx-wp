@@ -93,6 +93,33 @@ fi
 [[ -f "$DEMYX_CONFIG"/custom/nginx/extras/server-00.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/server-00.conf "$DEMYX_CONFIG"/extras/server-00.conf
 [[ -f "$DEMYX_CONFIG"/custom/nginx/extras/whitelist.conf ]] && ln -sf "$DEMYX_CONFIG"/custom/nginx/extras/whitelist.conf "$DEMYX_CONFIG"/extras/whitelist.conf
 
+# envsubst
+if [[ -f "$DEMYX_CONFIG"/conf.d/wp.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/wp.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
+        mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/wp.conf
+fi
+if [[ -f "$DEMYX_CONFIG"/conf.d/rocket.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/rocket.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
+        mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/rocket.conf
+fi
+if [[ -f "$DEMYX_CONFIG"/extras/auth.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/auth.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
+        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/auth.conf
+fi
+if [[ -f "$DEMYX_CONFIG"/extras/bedrock.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/bedrock.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
+        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/bedrock.conf
+fi
+if [[ -f "$DEMYX_CONFIG"/extras/cache-http.conf ]]; then
+    # shellcheck disable=SC2016
+    envsubst '$DEMYX_CACHE_INACTIVE' < "$DEMYX_CONFIG"/extras/cache-http.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
+        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/cache-http.conf
+fi
+
 echo "# Demyx
 # https://demyx.sh
 #
@@ -212,25 +239,3 @@ http {
     include ${DEMYX_CONFIG}/custom/nginx/conf.d/*.conf;
   }
 }" > "$DEMYX_CONFIG"/nginx.conf
-
-# envsubst
-if [[ -f "$DEMYX_CONFIG"/conf.d/wp.conf ]]; then
-    # shellcheck disable=SC2016
-    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/wp.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
-        mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/wp.conf
-fi
-if [[ -f "$DEMYX_CONFIG"/conf.d/rocket.conf ]]; then
-    # shellcheck disable=SC2016
-    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/conf.d/rocket.conf > "$DEMYX_CONFIG"/conf.d/tmp.conf; \
-        mv "$DEMYX_CONFIG"/conf.d/tmp.conf "$DEMYX_CONFIG"/conf.d/rocket.conf
-fi
-if [[ -f "$DEMYX_CONFIG"/extras/auth.conf ]]; then
-    # shellcheck disable=SC2016
-    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/auth.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
-        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/auth.conf
-fi
-if [[ -f "$DEMYX_CONFIG"/extras/bedrock.conf ]]; then
-    # shellcheck disable=SC2016
-    envsubst '$DEMYX_CONFIG' < "$DEMYX_CONFIG"/extras/bedrock.conf > "$DEMYX_CONFIG"/extras/tmp.conf; \
-        mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/bedrock.conf
-fi
