@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2024-05-07
+- Put current version of Demyx into the header [8712158](https://github.com/demyxsh/nginx/commit/871215837728e32d344ceb33af21f3f3d1b5d0ae)
+
 ## 2024-04-24
 - Add new environment variable to control cache expiration interval `DEMYX_CACHE_INACTIVE` [a92c41e](https://github.com/demyxsh/nginx/commit/a92c41ec1dcc1de9f603426c0c99f57ae1c86382)
 - Apparently 1g isn't accepted [a86f101](https://github.com/demyxsh/nginx/commit/a86f101148bbf2ae7c5953ab35914fecebb657bd)
