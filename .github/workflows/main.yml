@@ -78,7 +78,7 @@ jobs:
             exit 1
           fi
 
-          if [[ "$DEMYX_TEST_RESPONSE" == *"X-Powered-By: Demyx - https://demyx.sh"* ]]; then
+          if [[ "$DEMYX_TEST_RESPONSE" == *"X-Powered-By: Demyx v"* ]]; then
             echo "HTTP headers test passed."
           else
             exit 1
