@@ -122,6 +122,8 @@ COPY --chown=demyx:demyx config "$DEMYX_CONFIG"
 
 # Finalize
 RUN set -ex; \
+    # Get Demyx version
+    curl -s https://raw.githubusercontent.com/demyxsh/demyx/master/VERSION -o "$DEMYX_CONFIG"/VERSION; \
     # Create copy of /etc/demyx in an archive
     tar -czf /etc/demyx.tgz -C "$DEMYX_CONFIG" .; \
     \

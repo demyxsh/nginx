@@ -120,6 +120,9 @@ if [[ -f "$DEMYX_CONFIG"/extras/cache-http.conf ]]; then
         mv "$DEMYX_CONFIG"/extras/tmp.conf "$DEMYX_CONFIG"/extras/cache-http.conf
 fi
 
+# Demyx version
+DEMYX_VERSION="$(cat < "$DEMYX_CONFIG"/VERSION | grep DEMYX_VERSION | awk -F '=' '{print $2}')"
+
 echo "# Demyx
 # https://demyx.sh
 #
@@ -162,7 +165,7 @@ http {
 
   server_tokens off;
   reset_timedout_connection on;
-  more_set_headers \"X-Powered-By: Demyx - https://demyx.sh\";
+  more_set_headers \"X-Powered-By: Demyx v${DEMYX_VERSION}\";
   more_set_headers \"X-FastCGI-Cache: \$upstream_cache_status\";
 
   limit_req_status 503;
