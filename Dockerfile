@@ -8,8 +8,8 @@ LABEL sh.demyx.registry                 https://hub.docker.com/u/demyx
 
 # Set default variables
 ENV DEMYX                               /demyx
-ENV DEMYX_BASIC_AUTH                    false
-ENV DEMYX_BASIC_AUTH_HTPASSWD           false
+ENV DEMYX_BASIC_AUTH_PASSWORD           demyx
+ENV DEMYX_BASIC_AUTH_USERNAME           demyx
 ENV DEMYX_BEDROCK                       false
 ENV DEMYX_CACHE                         false
 ENV DEMYX_CACHE_INACTIVE                60m
@@ -21,10 +21,7 @@ ENV DEMYX_RATE_LIMIT                    false
 ENV DEMYX_UPLOAD_LIMIT                  256M
 ENV DEMYX_WHITELIST                     false
 ENV DEMYX_WHITELIST_IP                  false
-ENV DEMYX_WHITELIST_TYPE                false
-ENV DEMYX_WORDPRESS                     false
 ENV DEMYX_WORDPRESS_CONTAINER           wp
-ENV DEMYX_WORDPRESS_CONTAINER_PORT      9000
 ENV DEMYX_XMLRPC                        false
 ENV TZ                                  America/Los_Angeles
 
