@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 2024-11-01
+- Delete or renamed [5cb23a2](https://github.com/demyxsh/nginx/commit/5cb23a29ecb14454ee9d57b6124f93653df309fe)
+- Error check subshells too [1c0d71a](https://github.com/demyxsh/nginx/commit/1c0d71a8c9c5981a7cf10f2028673cf3024110c3)
+- Complete rework of the nginx config template with new conf files, modules, and nginx is now pid 1 [f0b5f8d](https://github.com/demyxsh/nginx/commit/f0b5f8d7d4c13ae4b001d20841c279a7ad9998bd)
+- Update ENV vars [51eabee](https://github.com/demyxsh/nginx/commit/51eabeee14471b4d64212fe1db22323c2c12cd55)
+- Add logrotate and apache2-utils to default packages [fc8fee5](https://github.com/demyxsh/nginx/commit/fc8fee5e39fac57d3fd28ba7d3eec7923cbb8151)
+- Compile brotli module [f769874](https://github.com/demyxsh/nginx/commit/f769874c09f94458acd38ae01f54dffeb80ce0c2)
+- New sudo file [7079164](https://github.com/demyxsh/nginx/commit/7079164c25ef7769ad78a03bb9722ba48e3cc7bd)
+- Install cache directory and symlink nginx core files [425e3f7](https://github.com/demyxsh/nginx/commit/425e3f7850b6f0cb31087b2dbe9b07771aa810eb)
+- Chown /etc/demyx [e76ffbc](https://github.com/demyxsh/nginx/commit/e76ffbc897d7f4322c43ec64bb28cdeedb776e85)
+- Entrypoint script can be executed again to regenerate the nginx template [27593f1](https://github.com/demyxsh/nginx/commit/27593f15e61bcdde10999d19680a66f28bdc7bae)
+- Direct people to demyx [1c7079f](https://github.com/demyxsh/nginx/commit/1c7079face1889f89a878a3da344ca3605c510fc)
+
 ## 2024-05-07
 - Put current version of Demyx into the header [8712158](https://github.com/demyxsh/nginx/commit/871215837728e32d344ceb33af21f3f3d1b5d0ae)
 
