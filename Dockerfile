@@ -64,7 +64,8 @@ RUN set -ex; \
     \
     && mkdir -p /usr/src \
     && git clone https://github.com/nginx-modules/ngx_cache_purge.git /usr/src/ngx_cache_purge \
-    && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module
+    && git clone https://github.com/openresty/headers-more-nginx-module.git /usr/src/headers-more-nginx-module \
+    && git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli /usr/src/ngx_brotli
 
 RUN set -ex ;\
     export NGINX_VERSION="$(nginx -v 2>&1 | awk -F '[/]' '{print $2}')" \
@@ -72,14 +73,22 @@ RUN set -ex ;\
     && tar -xzf /usr/src/nginx.tar.gz -C /usr/src \
     && rm /usr/src/nginx.tar.gz \
     && cd /usr/src/nginx-"$NGINX_VERSION" \
+    \
     && ./configure --with-compat --add-dynamic-module=/usr/src/ngx_cache_purge \
     && make modules \
     && cp objs/ngx_http_cache_purge_module.so /usr/lib/nginx/modules \
     && make clean \
+    \
     && ./configure --with-compat --add-dynamic-module=/usr/src/headers-more-nginx-module \
     && make modules \
     && cp objs/ngx_http_headers_more_filter_module.so /usr/lib/nginx/modules \
-    && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module \
+    \
+    && ./configure --with-compat --add-dynamic-module=/usr/src/ngx_brotli \
+    && make modules \
+    && cp objs/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules \
+    && cp objs/ngx_http_brotli_static_module.so /usr/lib/nginx/modules \
+    \
+    && rm -rf /usr/src/nginx-"$NGINX_VERSION" /usr/src/ngx_cache_purge /usr/src/headers-more-nginx-module /usr/src/ngx_brotli \
     && apk del .build-deps
 #
 # END BUILD CUSTOM MODULES
