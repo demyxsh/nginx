@@ -116,11 +116,7 @@ RUN set -ex; \
 # Configure sudo
 RUN set -ex; \
     \
-    echo "demyx ALL=(ALL) NOPASSWD:SETENV: /usr/local/bin/demyx-entrypoint, /usr/local/bin/demyx-reload" > /etc/sudoers.d/demyx; \
-    \
-    touch /etc/nginx/stdout; \
-    \
-    chown demyx:demyx /etc/nginx/stdout
+    echo "demyx ALL=(ALL) NOPASSWD:SETENV: /usr/local/bin/demyx-sudo" > /etc/sudoers.d/demyx
 
 # Imports
 COPY --chown=root:root bin /usr/local/bin

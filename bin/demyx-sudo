@@ -1,0 +1,78 @@
+#!/bin/bash
+# Demyx
+# https://demyx.sh
+set -eEuo pipefail
+#
+#   Sudo.
+#
+demyx_sudo() {
+    local DEMYX_SUDO="${1:-}"
+
+    case "${DEMYX_SUDO}" in
+        cron)
+			demyx_sudo_cron
+		;;
+        logrotate)
+			demyx_sudo_logrotate
+		;;
+        permission)
+			demyx_sudo_permission
+		;;
+    esac
+}
+#
+#	Cron.
+#
+demyx_sudo_cron() {
+	local DEMYX_SUDO_CRON=
+	DEMYX_SUDO_CRON="$(pgrep crond || true)"
+
+	{
+		echo "${DEMYX_CRON_LOGROTATE_INTERVAL} /usr/bin/sudo -E /usr/local/bin/demyx-sudo logrotate"
+		echo "0 * * * * /usr/bin/sudo -E /usr/local/bin/demyx-sudo permission"
+
+		# User defined cron
+		if [[ -f "${DEMYX_CONFIG}/custom/nginx/cron" ]]; then
+			cat "${DEMYX_CONFIG}/custom/nginx/cron"
+		fi
+	} | sed 's|"||g' > /etc/crontab
+
+	crontab -u demyx /etc/crontab
+
+	if [[ "${DEMYX_CRON}" = true && -z "${DEMYX_SUDO_CRON}" ]]; then
+		crond
+	fi
+}
+#
+#	Logs.
+#
+demyx_sudo_logrotate() {
+	local DEMYX_SUDO_LOGROTATE=
+	DEMYX_SUDO_LOGROTATE="${DEMYX_CONFIG}/logrotate.conf"
+
+    cat << EOF > "${DEMYX_SUDO_LOGROTATE}"
+"${DEMYX_LOG}/*.log {
+    create
+    missingok
+    notifempty
+    ${DEMYX_LOGROTATE}
+    rotate ${DEMYX_LOGROTATE_INTERVAL}
+    compress
+    delaycompress
+    size ${DEMYX_LOGROTATE_SIZE}
+    postrotate
+        nginx -s reload
+    endscript
+}
+EOF
+	logrotate --log="${DEMYX_LOG}/logrotate.log" "${DEMYX_SUDO_LOGROTATE}"
+}
+#
+#   Permissions.
+#
+demyx_sudo_permission() {
+    chown -R demyx:demyx "${DEMYX}" "${DEMYX_CONFIG}" "${DEMYX_LOG}" &
+}
+#
+#   Init.
+#
