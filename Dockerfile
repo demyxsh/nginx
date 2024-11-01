@@ -136,7 +136,8 @@ RUN set -ex; \
     ln -sf "${DEMYX_CONFIG}/mime.types" /etc/nginx/mime.types; \
     \
     # Set ownership
-    chown -R root:root /usr/local/bin
+    chown -R root:root /usr/local/bin; \
+    chown -R demyx:demyx "${DEMYX_CONFIG}"
 
 EXPOSE 80
 
