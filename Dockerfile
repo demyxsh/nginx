@@ -27,7 +27,7 @@ ENV TZ                                  America/Los_Angeles
 
 # Packages
 RUN set -ex; \
-    apk --update --no-cache add bash curl sudo
+    apk --update --no-cache add apache2-utils bash curl logrotate sudo
 
 # Configure Demyx
 RUN set -ex; \
