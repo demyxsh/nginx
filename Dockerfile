@@ -145,4 +145,5 @@ WORKDIR "$DEMYX"
 
 USER demyx
 
-ENTRYPOINT ["sudo", "-E", "demyx-entrypoint"]
+ENTRYPOINT ["demyx-entrypoint"]
+CMD ["nginx", "-g", "daemon off;"]
