@@ -126,8 +126,14 @@ COPY --chown=demyx:demyx config "$DEMYX_CONFIG"
 RUN set -ex; \
     # Get Demyx version
     curl -s https://raw.githubusercontent.com/demyxsh/demyx/master/VERSION -o "$DEMYX_CONFIG"/VERSION; \
-    # Create copy of /etc/demyx in an archive
-    tar -czf /etc/demyx.tgz -C "$DEMYX_CONFIG" .; \
+    \
+    # Install cache directory
+    install -d -m 0770 -o demyx -g demyx /var/cache/nginx; \
+    \
+    # Symlinks
+    cp /etc/nginx/mime.types "${DEMYX_CONFIG}"; \
+    ln -sf "${DEMYX_CONFIG}/nginx.conf" /etc/nginx/nginx.conf; \
+    ln -sf "${DEMYX_CONFIG}/mime.types" /etc/nginx/mime.types; \
     \
     # Set ownership
     chown -R root:root /usr/local/bin
