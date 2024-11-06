@@ -158,7 +158,7 @@ events {
 
 http {
     upstream php {
-        server ${DEMYX_WORDPRESS_CONTAINER}:${DEMYX_WORDPRESS_PORT};
+        server ${DEMYX_WORDPRESS_CONTAINER}:9000;
     }
 
     default_type application/octet-stream;
