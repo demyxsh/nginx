@@ -8,8 +8,10 @@ LABEL sh.demyx.registry                 https://hub.docker.com/u/demyx
 
 # Set default variables
 ENV DEMYX                               /demyx
+ENV DEMYX_BASIC_AUTH                    false
 ENV DEMYX_BASIC_AUTH_PASSWORD           demyx
 ENV DEMYX_BASIC_AUTH_USERNAME           demyx
+ENV DEMYX_BASIC_AUTH_WP                 false
 ENV DEMYX_BEDROCK                       false
 ENV DEMYX_CACHE                         false
 ENV DEMYX_CACHE_INACTIVE                60m
