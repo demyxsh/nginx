@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2024-11-01
+## 2025-07-28
 - Delete or renamed [5cb23a2](https://github.com/demyxsh/nginx/commit/5cb23a29ecb14454ee9d57b6124f93653df309fe)
 - Error check subshells too [1c0d71a](https://github.com/demyxsh/nginx/commit/1c0d71a8c9c5981a7cf10f2028673cf3024110c3)
 - Complete rework of the nginx config template with new conf files, modules, and nginx is now pid 1 [f0b5f8d](https://github.com/demyxsh/nginx/commit/f0b5f8d7d4c13ae4b001d20841c279a7ad9998bd)
@@ -12,6 +12,10 @@
 - Chown /etc/demyx [e76ffbc](https://github.com/demyxsh/nginx/commit/e76ffbc897d7f4322c43ec64bb28cdeedb776e85)
 - Entrypoint script can be executed again to regenerate the nginx template [27593f1](https://github.com/demyxsh/nginx/commit/27593f15e61bcdde10999d19680a66f28bdc7bae)
 - Direct people to demyx [1c7079f](https://github.com/demyxsh/nginx/commit/1c7079face1889f89a878a3da344ca3605c510fc)
+- Remove old variables [ee4f7d5](https://github.com/demyxsh/nginx/commit/ee4f7d510c8d959e454aaabfd05aec25e91e6645)
+- Hard code wp port [f5c4cfa](https://github.com/demyxsh/nginx/commit/f5c4cfac947eb5ab059a9ce3adad848e8a2e8718)
+- Add missing variables [fe203ee](https://github.com/demyxsh/nginx/commit/fe203eed5dd2a29b8c2b10fb22c9127a19a059e0)
+- Update commit message format in GitHub Actions workflow to include run ID [446906e](https://github.com/demyxsh/nginx/commit/446906ecd3ac2fd3a49f02252d0ba8797931f6f4)
 
 ## 2024-05-07
 - Put current version of Demyx into the header [8712158](https://github.com/demyxsh/nginx/commit/871215837728e32d344ceb33af21f3f3d1b5d0ae)
