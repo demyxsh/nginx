@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2026-05-08
+- Update Alpine base image to 3.21, PHP to 8.3, and improve security configuration [a8e5164](https://github.com/demyxsh/nginx/commit/a8e51649a534a6e69aa71b36a3b46282828a525c)
+
 ## 2025-07-28
 - Delete or renamed [5cb23a2](https://github.com/demyxsh/nginx/commit/5cb23a29ecb14454ee9d57b6124f93653df309fe)
 - Error check subshells too [1c0d71a](https://github.com/demyxsh/nginx/commit/1c0d71a8c9c5981a7cf10f2028673cf3024110c3)
