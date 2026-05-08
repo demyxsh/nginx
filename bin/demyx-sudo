@@ -71,7 +71,11 @@ EOF
 #   Permissions.
 #
 demyx_sudo_permission() {
-    chown -R demyx:demyx "${DEMYX}" "${DEMYX_CONFIG}" "${DEMYX_LOG}" &
+	chown -R demyx:demyx "${DEMYX}" "${DEMYX_CONFIG}" "${DEMYX_LOG}"
+
+	if [[ -f "${DEMYX_CONFIG}/logrotate.conf" ]]; then
+		chown root:root "${DEMYX_CONFIG}/logrotate.conf"
+	fi
 }
 #
 #   Init.

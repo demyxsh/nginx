@@ -1,4 +1,4 @@
-FROM nginx:mainline-alpine3.18
+FROM nginx:mainline-alpine3.21
 
 LABEL sh.demyx.image                    demyx/nginx
 LABEL sh.demyx.maintainer               Demyx <info@demyx.sh>
@@ -100,14 +100,14 @@ RUN set -ex ;\
 #   Rocket-Nginx support for WP Rocket - https://github.com/SatelliteWP/rocket-nginx
 #
 RUN set -ex; \
-    apk add --no-cache --virtual .build-deps git php81; \
+    apk add --no-cache --virtual .build-deps git php83; \
     \
     su -c "mkdir -p ${DEMYX_CONFIG}/custom/nginx; \
         cd ${DEMYX_CONFIG}/custom/nginx; \
         git clone https://github.com/SatelliteWP/rocket-nginx.git; \
         cd rocket-nginx; \
         cp rocket-nginx.ini.disabled rocket-nginx.ini; \
-        php81 rocket-parser.php; \
+        php83 rocket-parser.php; \
         cd ..; \
         tar -czf ${DEMYX_CONFIG}/rocket-nginx.tgz rocket-nginx" -s /bin/bash demyx; \
     \
