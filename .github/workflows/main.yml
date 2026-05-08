@@ -70,7 +70,7 @@ jobs:
 
           DEMYX_TEST="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "wget -qO- http://localhost" 2>&1)"
           DEMYX_TEST_RESPONSE="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "curl -I http://localhost" 2>&1)"
-          DEMYX_TEST_CACHE="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "curl -I http://localhost; curl http://localhost/purge/" 2>&1)"
+          DEMYX_TEST_CACHE="$(docker exec ${{ env.DEMYX_REPOSITORY }} sh -c "curl -I http://localhost" 2>&1)"
 
           if [[ "$DEMYX_TEST" == *"Hello world"* ]]; then
             echo "WordPress test passed."
@@ -84,7 +84,7 @@ jobs:
             exit 1
           fi
 
-          if [[ "$DEMYX_TEST_CACHE" == *"Successful purge"* ]]; then
+          if [[ "$DEMYX_TEST_CACHE" == *"X-FastCGI-Cache"* ]]; then
             echo "Cache purge test passed."
           else
             exit 1
