@@ -1,4 +1,4 @@
-FROM nginx:mainline-alpine3.21
+FROM nginx:mainline-alpine3.22
 
 LABEL sh.demyx.image                    demyx/nginx
 LABEL sh.demyx.maintainer               Demyx <info@demyx.sh>

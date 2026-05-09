@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2026-05-09
+- Update Nginx base image tag to mainline-alpine3.22
+
 ## 2026-05-08
 - Update Alpine base image to 3.21, PHP to 8.3, and improve security configuration [a8e5164](https://github.com/demyxsh/nginx/commit/a8e51649a534a6e69aa71b36a3b46282828a525c)
 
