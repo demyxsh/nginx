@@ -1,229 +1,480 @@
-# CHANGELOG
+# Changelog
 
 ## 2026-05-09
-- Update Nginx base image tag to mainline-alpine3.22
+### Added
+- None.
+### Changed
+- Updated Nginx base image tag to `mainline-alpine3.22`.
+- Scheduled build run.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2026-05-08
-- Update Alpine base image to 3.21, PHP to 8.3, and improve security configuration [a8e5164](https://github.com/demyxsh/nginx/commit/a8e51649a534a6e69aa71b36a3b46282828a525c)
+### Added
+- None.
+### Changed
+- Updated Alpine base image to 3.21.
+- Updated PHP to 8.3.
+- Improved security configuration.
+### Fixed
+- Removed cache purge test and checked for FastCGI cache header instead.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2025-07-28
-- Delete or renamed [5cb23a2](https://github.com/demyxsh/nginx/commit/5cb23a29ecb14454ee9d57b6124f93653df309fe)
-- Error check subshells too [1c0d71a](https://github.com/demyxsh/nginx/commit/1c0d71a8c9c5981a7cf10f2028673cf3024110c3)
-- Complete rework of the nginx config template with new conf files, modules, and nginx is now pid 1 [f0b5f8d](https://github.com/demyxsh/nginx/commit/f0b5f8d7d4c13ae4b001d20841c279a7ad9998bd)
-- Update ENV vars [51eabee](https://github.com/demyxsh/nginx/commit/51eabeee14471b4d64212fe1db22323c2c12cd55)
-- Add logrotate and apache2-utils to default packages [fc8fee5](https://github.com/demyxsh/nginx/commit/fc8fee5e39fac57d3fd28ba7d3eec7923cbb8151)
-- Compile brotli module [f769874](https://github.com/demyxsh/nginx/commit/f769874c09f94458acd38ae01f54dffeb80ce0c2)
-- New sudo file [7079164](https://github.com/demyxsh/nginx/commit/7079164c25ef7769ad78a03bb9722ba48e3cc7bd)
-- Install cache directory and symlink nginx core files [425e3f7](https://github.com/demyxsh/nginx/commit/425e3f7850b6f0cb31087b2dbe9b07771aa810eb)
-- Chown /etc/demyx [e76ffbc](https://github.com/demyxsh/nginx/commit/e76ffbc897d7f4322c43ec64bb28cdeedb776e85)
-- Entrypoint script can be executed again to regenerate the nginx template [27593f1](https://github.com/demyxsh/nginx/commit/27593f15e61bcdde10999d19680a66f28bdc7bae)
-- Direct people to demyx [1c7079f](https://github.com/demyxsh/nginx/commit/1c7079face1889f89a878a3da344ca3605c510fc)
-- Remove old variables [ee4f7d5](https://github.com/demyxsh/nginx/commit/ee4f7d510c8d959e454aaabfd05aec25e91e6645)
-- Hard code wp port [f5c4cfa](https://github.com/demyxsh/nginx/commit/f5c4cfac947eb5ab059a9ce3adad848e8a2e8718)
-- Add missing variables [fe203ee](https://github.com/demyxsh/nginx/commit/fe203eed5dd2a29b8c2b10fb22c9127a19a059e0)
-- Update commit message format in GitHub Actions workflow to include run ID [446906e](https://github.com/demyxsh/nginx/commit/446906ecd3ac2fd3a49f02252d0ba8797931f6f4)
+### Added
+- Added logrotate and apache2-utils to default packages.
+- Added missing environment variables.
+### Changed
+- Complete rework of Nginx config template with new config files/modules and Nginx as PID 1.
+- Updated environment variables.
+- Added new sudo file.
+- Made entrypoint executable for config regeneration.
+- Updated GitHub Actions commit message format to include run ID.
+- Updated project/support messaging.
+### Fixed
+- Added subshell error checks.
+### Removed
+- Removed old variables.
+- Removed/renamed obsolete items.
+### Security
+- Compiled Brotli module.
+
+## 2024-11-06
+### Added
+- Added missing variables.
+### Changed
+- None.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
+
+## 2024-11-05
+### Added
+- None.
+### Changed
+- Hard coded WordPress port.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
+
+## 2024-10-31
+### Added
+- Installed cache directory and symlinked Nginx core files.
+- Added new sudo file.
+- Added logrotate and apache2-utils default packages.
+### Changed
+- Reworked Nginx config template and related modules.
+- Updated ENV variables.
+- Updated entrypoint regeneration behavior.
+- Updated project messaging links.
+- Updated ownership for `/etc/demyx`.
+### Fixed
+- Added subshell error checking.
+### Removed
+- Removed old variables.
+- Removed/renamed obsolete paths/items.
+### Security
+- Compiled Brotli module.
 
 ## 2024-05-07
-- Put current version of Demyx into the header [8712158](https://github.com/demyxsh/nginx/commit/871215837728e32d344ceb33af21f3f3d1b5d0ae)
+### Added
+- None.
+### Changed
+- Put current Demyx version into header.
+- Updated header check logic.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2024-04-24
-- Add new environment variable to control cache expiration interval `DEMYX_CACHE_INACTIVE` [a92c41e](https://github.com/demyxsh/nginx/commit/a92c41ec1dcc1de9f603426c0c99f57ae1c86382)
-- Apparently 1g isn't accepted [a86f101](https://github.com/demyxsh/nginx/commit/a86f101148bbf2ae7c5953ab35914fecebb657bd)
-- Update fastcgi_cache_path values [cc72e38](https://github.com/demyxsh/nginx/commit/cc72e388201b4faa6d95474365078fc6e192427d)
+### Added
+- Added `DEMYX_CACHE_INACTIVE` environment variable for cache expiration interval.
+### Changed
+- Updated `fastcgi_cache_path` values.
+### Fixed
+- Corrected unsupported `1g` value usage.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2024-04-03
-- xmlrpc.php wasn't being denied properly [8e41ea4](https://github.com/demyxsh/nginx/commit/8e41ea4702fde761c8ccd126080d9e96ea2015eb)
+### Added
+- None.
+### Changed
+- None.
+### Fixed
+- Fixed xmlrpc.php deny rule.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2024-02-07
-- Update shamless plug [44d302f](https://github.com/demyxsh/nginx/commit/44d302f324f2e8eddf3bada5315c391e78da8cdb)
-- Double upload limit [d11a61e](https://github.com/demyxsh/nginx/commit/d11a61e385603d6dc70573338d71bfb2202bcf31)
-- 2024-02-07 [2d5c8f6](https://github.com/demyxsh/nginx/commit/2d5c8f6adb3d63376afc7ec35d0b352c5a259425)
-- Merge branch 'master' of github.com:demyxsh/nginx [041d1e2](https://github.com/demyxsh/nginx/commit/041d1e27f67a2616667b0426f92e2d2ceb41decb)
-- Update description with shameless plug and support link [b32c678](https://github.com/demyxsh/nginx/commit/b32c678347a280f1d86f8656d925ebaffe4955a6)
-- Support for WP Rocket with [rocket-nginx](https://github.com/SatelliteWP/rocket-nginx) [77b86de](https://github.com/demyxsh/nginx/commit/77b86dea6f3a27bd52c3ed0f722a2a18decfe0fd)
-- Move RUN commands up [e98768a](https://github.com/demyxsh/nginx/commit/e98768a1e3b40534f9bb0c7f044e3dacb93ff860)
-- Add new environment variable [5be7fa7](https://github.com/demyxsh/nginx/commit/5be7fa72345d03f498c404b7d2523932074801c5)
-- Fix base image to Alpine 3.18 [754af4a](https://github.com/demyxsh/nginx/commit/754af4a4ea2c32cb1b8d5ad84908cff3eaed92fe)
-- Switch to more_set_headers [02eb584](https://github.com/demyxsh/nginx/commit/02eb584a565d156638ca3eedfbae665590f52d10)
+### Added
+- Added support for WP Rocket via `rocket-nginx`.
+- Added new environment variable support.
+### Changed
+- Updated description/support links.
+- Moved `RUN` commands earlier in Dockerfile flow.
+- Switched to `more_set_headers`.
+### Fixed
+- Doubled upload limit.
+- Fixed base image to Alpine 3.18.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-11-13
-- Combine duplicate rules [40c75ca](https://github.com/demyxsh/nginx/commit/40c75cae5241a3eea34293c19fb981a90784d0e4)
-- Check if file exists [a92dd21](https://github.com/demyxsh/nginx/commit/a92dd214ccedde22f83f266571de90e714670605)
-- Remove duplicates [d95a4ff](https://github.com/demyxsh/nginx/commit/d95a4ff4b90ca9ad6fd5e2a1ffa06dd741368d67)
-- Completely restructure directories and files [b60e961](https://github.com/demyxsh/nginx/commit/b60e961cdd42bbdc2c5f1d3a32961687031f9cc1)
-- envsubst so variables are parsed [5dbd163](https://github.com/demyxsh/nginx/commit/5dbd1634a072185305323c2af3d59779ca901aad)
-- Use new include rule [1745b08](https://github.com/demyxsh/nginx/commit/1745b088a6791cafe0f8b0c394fb027afd6cb0d4)
-- User override conditionals [85efc1d](https://github.com/demyxsh/nginx/commit/85efc1dc4dbe7faa5e66092ac87c620ff1e46753)
-- Use new paths and update logic [0466bef](https://github.com/demyxsh/nginx/commit/0466befa118d21ff1d5bddb1e1483403a3444990)
-- Update logic [308ca89](https://github.com/demyxsh/nginx/commit/308ca89e17988642064aac6b97f85a905f994b16)
+### Added
+- None.
+### Changed
+- Completely restructured directories and files.
+- Updated include rules and path logic.
+- Updated override conditionals.
+- Updated envsubst parsing behavior.
+### Fixed
+- Combined duplicate rules.
+- Added file-existence checks.
+- Removed duplicate entries.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-09-19
-- Fix cache purging issue [49ed4bf](https://github.com/demyxsh/nginx/commit/49ed4bff8aa33424e7539b15e6ae906fd919c535)
-- Misc updates [6367d4f](https://github.com/demyxsh/nginx/commit/6367d4f2c8dbfc472bd2a5d45a41882111ce549c)
-- Add tests for headers and cache [2855fcb](https://github.com/demyxsh/nginx/commit/2855fcbe17d731740d7dcf1d64b1a7c9b6c40056)
+### Added
+- Added tests for headers and cache.
+### Changed
+- Misc updates.
+### Fixed
+- Fixed cache purging issue.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-08-17
-- Fix multiple IP bug [9743a9b](https://github.com/demyxsh/nginx/commit/9743a9b863eb4d235945af2566dde06810fa888e)
+### Added
+- None.
+### Changed
+- None.
+### Fixed
+- Fixed multiple IP bug.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-08-10
-- Include format and tip [6f0c133](https://github.com/demyxsh/nginx/commit/6f0c1333aea0d91615fddc09573cf9e6ec246706)
-- Update basic auth if statement with missing variable [cb27cc6](https://github.com/demyxsh/nginx/commit/cb27cc63c2b8e682e6ec6f8414cdefe61270a8c7)
-- Adding missing variable [3ee857e](https://github.com/demyxsh/nginx/commit/3ee857ef2ba47ce22fdc6285798ef579712599b8)
+### Added
+- Added missing variables.
+### Changed
+- Included format and usage tip.
+### Fixed
+- Fixed basic auth `if` statement with missing variable.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-07-16
-- Misc updates [bffd8dd](https://github.com/demyxsh/nginx/commit/bffd8dd2f5c256e853150b7e3f35a0799e95040d)
-- Update directives for WooCommerce [7408f0e](https://github.com/demyxsh/nginx/commit/7408f0ec07d8bbf83de2cc5599983e5b22c84c18)
-- Use bash replace function [bcee331](https://github.com/demyxsh/nginx/commit/bcee33183852285e7f6c1deb199c4fdccd8c1c57)
+### Added
+- None.
+### Changed
+- Updated WooCommerce directives.
+- Switched to bash replace function.
+- Misc updates.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-07-06
-- Error log wasn't showing local time [a433294](https://github.com/demyxsh/nginx/commit/a433294dac86d824f5047e1a2f3233ef73b6464b)
+### Added
+- None.
+### Changed
+- None.
+### Fixed
+- Fixed error log local time handling.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2023-07-05
-- Misc update [97724b4](https://github.com/demyxsh/nginx/commit/97724b43a6e2568b55e96282e52c57c20e99366b)
+### Added
+- None.
+### Changed
+- Misc update.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2022-06-24
-- Correct package name [a36adca](https://github.com/demyxsh/nginx/commit/a36adca1fa9f69a6ea9ab28ba592f582f8562dc5)
+### Added
+- None.
+### Changed
+- Corrected package name.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2022-05-19
-- Add missing fastcgi_param for wp-cron.php [3097f64](https://github.com/demyxsh/nginx/commit/3097f642e4060c32489ac7181cd784a1e57dc3c5)
+### Added
+- Added missing `fastcgi_param` for `wp-cron.php`.
+### Changed
+- None.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2021-07-14
-- Use nginx -v instead to get version [c9a5a8f](https://github.com/demyxsh/nginx/commit/c9a5a8f12fe1f43390753039569d042087299ac4)
-- Use nginx:mainline-alpine as the FROM image [f07028f](https://github.com/demyxsh/nginx/commit/f07028fc87a78f29859f79e9410d9e78e3e66941)
-- Use latest distro [218ffc4](https://github.com/demyxsh/nginx/commit/218ffc4f0e353972dba9be2fb4e24dfed5e715e2)
+### Added
+- None.
+### Changed
+- Used `nginx -v` for version extraction.
+- Switched `FROM` image to `nginx:mainline-alpine`.
+- Updated distro base.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2021-06-16
-- Add missing environment variables [f0798bf](https://github.com/demyxsh/nginx/commit/f0798bf02b9d3c8d83cb01d6ecc326f244c4e395)
-- Update ngx_cache_purge repo [8da2097](https://github.com/demyxsh/nginx/commit/8da209764dd8fbb7f72393e8fe52bbf2b8ab8e06)
-- Remove unused ENV [e10a886](https://github.com/demyxsh/nginx/commit/e10a88645d31bf35ea887297aa184e2c9bbdda75)
+### Added
+- Added missing environment variables.
+### Changed
+- Updated `ngx_cache_purge` repository.
+### Fixed
+- None.
+### Removed
+- Removed unused environment variables.
+### Security
+- None.
 
 ## 2021-02-25
-- Added
-    - `bin/demyx-default`
-    - `bin/demyx-entrypoint`
-    - `bin/demyx-reload`
-    - `bin/demyx-wp`
-    - `config/cache/http.conf`
-    - `config/cache/location.conf`
-    - `config/cache/server.conf`
-    - `common/locations.conf`
-    - `common/wpcommon.conf`
-    - `common/xmlrpc.conf`
-    - `nginx/auth.conf`
-    - `nginx/bedrock.conf`
-    - `nginx/mime.types`
-- Changed
-    - Renamed src to bin.
-    - Renamed default.sh to demyx-default.
-    - Renamed entrypoint.sh to demyx-entrypoint.
-    - Renamed reload.sh to demyx-reload.
-    - Renamed wp.sh to demyx-wp.
-    - Move src/cache to config.
-    - Move src/common to config.
-    - Move src/nginx to config.
-    - `bin/demyx-default`
-        - Remove full paths to binaries.
-    - `bin/demyx-entrypoint`
-        - Remove full paths to binaries.
-    - `bin/demyx-reload`
-        - Remove full paths to binaries.
-    - `bin/demyx-wp`
-        - Remove full paths to binaries.
-        - Remove duplicate access/error log rules.
-        - Remove fastcgi_intercept_errors.
-    - `Dockerfile`
-        - Remove full paths to binaries.
-        - Rearrange RUN commands.
-        - Update bash PS1.
-        - Update COPY directory.
-        - Remove custom error pages.
-- Removed
-    - `common/error.conf`
+### Added
+- Added `bin/demyx-default`, `bin/demyx-entrypoint`, `bin/demyx-reload`, and `bin/demyx-wp`.
+- Added `config/cache/http.conf`, `config/cache/location.conf`, and `config/cache/server.conf`.
+- Added common and nginx config files for auth, bedrock, mime types, WordPress, and xmlrpc handling.
+### Changed
+- Renamed `src` to `bin` and renamed script files to `demyx-*` variants.
+- Moved `src/cache`, `src/common`, and `src/nginx` into `config` paths.
+- Removed full binary paths across shell scripts.
+- Updated Dockerfile `RUN` flow, bash `PS1`, and `COPY` directory.
+- Removed duplicate access/error log rules and `fastcgi_intercept_errors` in `demyx-wp`.
+### Fixed
+- None.
+### Removed
+- Removed `common/error.conf`.
+### Security
+- None.
 
 ## 2020-12-21
+### Added
+- None.
 ### Changed
-- Disable custom 500 error page
+- Disabled custom 500 error page.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-12-05
+### Added
+- None.
 ### Changed
-- Update path to tar
+- Updated path to `tar`.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-12-04
 ### Added
-- fastcgi_intercept_errors rule
+- Added `fastcgi_intercept_errors` rule.
 ### Changed
-- Update RUN commands for configuring demyx
-- Use WordPress' 404 page instead of nginx
+- Updated `RUN` commands for Demyx configuration.
+- Used WordPress 404 page instead of Nginx default.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-11-23
+### Added
+- None.
 ### Changed
-- Alphabetized
-- Misc updates
-- Rename variables and support old ones
-- ShellCheck approved
-- Update Dockerfile RUN commands
-- Use -E flag for sudo to keep environment variables
-- Use full paths to binaries/scripts
+- Alphabetized configuration/variables.
+- Misc updates.
+- Renamed variables and supported old names.
+- Updated Dockerfile `RUN` commands.
+- Used `sudo -E` for environment variable preservation.
+- Used full paths to binaries/scripts.
+### Fixed
+- ShellCheck compliance improvements.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-06-23
+### Added
+- None.
 ### Changed
-- Update author ID enumeration security rule which was preventing XML exports
+- Updated author ID enumeration security rule to allow XML exports.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-06-21
+### Added
+- None.
 ### Changed
-- Update variables for IP whitelisting
-- Enable gzip for wp-content assets
+- Updated IP whitelist variables.
+- Enabled gzip for `wp-content` assets.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-06-13
 ### Added
-- New environment variables NGINX_WHITELIST, NGINX_WHITELIST_IP, and NGINX_WHITELIST_TYPE
+- Added `NGINX_WHITELIST`, `NGINX_WHITELIST_IP`, and `NGINX_WHITELIST_TYPE` environment variables.
 ### Changed
-- wp-config.php wasn't properly being denied
-- Moved auth_basic to its own file
+- Moved `auth_basic` to its own file.
+### Fixed
+- Fixed `wp-config.php` deny behavior.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-06-07
+### Added
+- None.
 ### Changed
-- Move nginx.pid to /tmp
-- Generate demyx config if it doesn't exist
+- Moved `nginx.pid` to `/tmp`.
+- Generated Demyx config when missing.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-05-31
+### Added
+- None.
 ### Changed
-- Shell scripts now uses bash in the shebang
-- Get and use alpine version from FROM
+- Switched shell script shebangs to bash.
+- Derived Alpine version from `FROM` image.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-05-08
+### Added
+- None.
 ### Changed
-- Move default WORDPRESS environment variable to Dockerfile
+- Moved default `WORDPRESS` environment variable to Dockerfile.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-04-17
 ### Added
-- Allow reload.sh to sudoers
+- Added `reload.sh` to sudoers.
 ### Changed
-- chown demyx directories
+- Updated ownership for Demyx directories.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-04-15
+### Added
+- None.
 ### Changed
-- Use demyx-entrypoint in sudoers
-- Set log ownership to demyx user
+- Used `demyx-entrypoint` in sudoers.
+- Set log ownership to Demyx user.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- None.
 
 ## 2020-04-14
 ### Added
-- Created src for main files
-- Created src/nginx for misc files
-- Added more fastcgi rules
-- .webp support
-- src/nginx directory for misc files
-- Custom mime.types
+- Created source directory structure for main and nginx files.
+- Added additional FastCGI rules.
+- Added `.webp` support.
+- Added custom `mime.types`.
 ### Changed
-- Modified fastcgi_cache_path params
-- Cache status has been moved to main nginx.conf
-- move bedrock.conf to src/nginx
-- Log format
-- Include homepage url to X-Powered-By
-- Set dumb-init as the shebang in the entrypoint
-- Format LABEL and ENV entries
-- Update finalize RUN commands
-- Update ENTRYPOINT
-- Update sudo environment
+- Modified `fastcgi_cache_path` parameters.
+- Moved cache status to main `nginx.conf`.
+- Moved `bedrock.conf` path.
+- Updated log format.
+- Included homepage URL in `X-Powered-By`.
+- Set `dumb-init` as entrypoint shebang.
+- Formatted `LABEL` and `ENV` entries.
+- Updated final `RUN` commands.
+- Updated `ENTRYPOINT`.
+- Updated sudo environment handling.
+### Fixed
+- None.
 ### Removed
-- Headers
+- Removed headers.
+### Security
+- None.
