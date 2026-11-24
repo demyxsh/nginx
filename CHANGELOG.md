@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-23
+### Added
+- None.
+### Changed
+- None.
+### Fixed
+- None.
+### Removed
+- None.
+### Security
+- Pin NGINX 1.31.9 on Alpine 3.24 and verify the matching module build source archive, addressing CVE-2026-123007, CVE-2026-123633, CVE-2026-121810, CVE-2026-123634, and CVE-2026-113425.
+
 ## 2026-05-29
 ### Added
 - None.

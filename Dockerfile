@@ -1,4 +1,4 @@
-FROM nginx:mainline-alpine3.22
+FROM nginx:1.31.9-alpine3.24@sha256:fb4658584bd9a916ffb6f6e365f97c25cfdb2923801f551ea08356e695f14ff7
 
 LABEL sh.demyx.image                    demyx/nginx
 LABEL sh.demyx.maintainer               Demyx <info@demyx.sh>
@@ -72,6 +72,7 @@ RUN set -ex; \
 RUN set -ex ;\
     export NGINX_VERSION="$(nginx -v 2>&1 | awk -F '[/]' '{print $2}')" \
     && wget https://nginx.org/download/nginx-"$NGINX_VERSION".tar.gz -qO /usr/src/nginx.tar.gz \
+    && echo "a11c5eeee2e257f4478f0e649f84b0040787d277d2d3e5233952aa6b6dcb80ad  /usr/src/nginx.tar.gz" | sha256sum -c - \
     && tar -xzf /usr/src/nginx.tar.gz -C /usr/src \
     && rm /usr/src/nginx.tar.gz \
     && cd /usr/src/nginx-"$NGINX_VERSION" \
